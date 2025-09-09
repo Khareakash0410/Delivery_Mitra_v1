@@ -1,0 +1,25 @@
+{
+  "extends": [
+    "development"
+  ],
+  "hints": {
+    "compat-api/css": [
+      "default",
+      {
+        "ignore": [
+          "backdrop-filter",
+          "-webkit-overflow-scrolling",
+          "min-height: auto"
+        ]
+      }
+    ],
+    "axe/forms": [
+      "default",
+      {
+        "label": "off"
+      }
+    ],
+    "button-type": "off",
+    "no-inline-styles": "off"
+  }
+}

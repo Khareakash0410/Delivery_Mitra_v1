@@ -1,0 +1,102 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .container {
+    flex-direction: row;
+  }
+}
+
+.mobileHeader {
+  display: flex;
+  padding: 1rem;
+  background-color: #1f2937;
+  color: white;
+  z-index: 20;
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .mobileHeader {
+    display: none;
+  }
+}
+
+.profileButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.profileImage {
+  width: 4rem;
+  height: 4rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  object-fit: cover;
+  border-radius: 50%;
+  transition: transform 0.6s ease-in-out;
+}
+
+.profileImage:hover {
+  transform: rotate(360deg);
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+@media (min-width: 768px) {
+  .overlay {
+    display: none;
+  }
+}
+
+.sidebar {
+  background-color: #1f2937;
+  min-width: 16rem;
+  min-height: 100vh;
+  color: white;
+  position: absolute;
+  z-index: 20;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+}
+
+@media (min-width: 768px) {
+  .sidebar {
+    position: relative;
+    transform: translateX(0);
+    display: block;
+  }
+}
+
+.sidebarOpen {
+  transform: translateX(0);
+}
+
+.sidebarClosed {
+  transform: translateX(-100%);
+}
+
+@media (min-width: 768px) {
+  .sidebarClosed {
+    transform: translateX(0);
+  }
+}
+
+.mainContent {
+  flex-grow: 1;
+  padding: 1.5rem;
+  overflow: auto;
+}

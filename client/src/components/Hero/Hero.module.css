@@ -1,0 +1,332 @@
+:root {
+  --primary-green: #2d7a56;
+  --accent-yellow: #ffc107;
+  --accent-yellow-hover: #ffca28;
+  --text-primary: #333;
+  --text-secondary: #666;
+  --border-light: #ddd;
+  --shadow-light: rgba(0, 0, 0, 0.1);
+  --shadow-medium: rgba(0, 0, 0, 0.15);
+  --shadow-strong: rgba(0, 0, 0, 0.2);
+  --border-radius-sm: 10px;
+  --border-radius-md: 15px;
+  --border-radius-lg: 20px;
+  --border-radius-xl: 25px;
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hero {
+  min-height: 90vh;
+  background: linear-gradient(135deg, #ffffff 0%, #ffffff 50%, var(--primary-green) 50%, var(--primary-green) 100%);
+  padding: 2rem 0;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--primary-green) 50%, #239e6b 100%);
+  clip-path: polygon(15% 0%, 100% 0%, 100% 100%, 0% 100%);
+  z-index: 1;
+}
+
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+/* Left Section Styles */
+.leftSection {
+  z-index: 5;
+}
+
+.badge {
+  background: linear-gradient(45deg, #fff3cd, #ffeaa7);
+  color: #856404;
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--border-radius-lg);
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.2);
+  transition: var(--transition-smooth);
+}
+
+.badge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+}
+
+.title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  color: var(--primary-green);
+}
+
+.titleSecondary {
+    color: #f6b604;
+}
+
+.description {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+}
+
+.primaryButton {
+  padding: 1rem 2rem;
+  border-radius: var(--border-radius-xl);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  font-size: 1rem;
+  white-space: nowrap;
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.primaryButton {
+  background: linear-gradient(45deg, var(--accent-yellow), var(--accent-yellow-hover));
+  color: var(--text-primary);
+  border-color: var(--accent-yellow);
+}
+
+.primaryButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 193, 7, 0.4);
+  background: linear-gradient(45deg, var(--accent-yellow-hover), #ffd54f);
+}
+
+.primaryButton:active {
+  transform: translateY(0);
+}
+
+
+
+/* Right Section Styles */
+.rightSection {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5;
+  z-index: 3;
+}
+
+.imageContainer {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.deliveryPerson {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.personImage {
+  width: 450px;
+  height: 450px;
+  object-fit: cover;
+  object-position: center;
+  transition: var(--transition-smooth);
+  filter: drop-shadow(0 15px 40px var(--shadow-strong));
+}
+
+.features {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: var(--transition-smooth);
+}
+
+.featureIcon {
+  background: linear-gradient(135deg, var(--primary-green), #319d70);
+  color: white;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  transition: var(--transition-smooth);
+  box-shadow: 0 4px 12px rgba(45, 122, 86, 0.3);
+}
+
+.feature:hover .featureIcon {
+  transform: scale(1.1) ;
+  box-shadow: 0 6px 16px rgba(45, 122, 86, 0.4);
+}
+
+.featureContent {
+  flex: 1;
+}
+
+.featureTitle {
+  font-weight: 600;
+  color: #f1f9f1;
+  font-size: 0.9rem;
+}
+
+
+
+/* Responsive Design - Mobile First Approach */
+@media (max-width: 1024px) {
+  .content {
+    gap: 2rem;
+  }
+  
+  .personImage {
+    width: 300px;
+    height: 380px;
+  }
+  
+}
+
+@media (max-width: 768px) {
+  .hero {
+    min-height: auto;
+    padding: 3rem 0;
+    background: linear-gradient(180deg, var(--primary-green) 0%, var(--primary-green) 40%,#ffffff 40%, #ffffff 100%);
+  }
+  
+  .hero::before {
+    clip-path: polygon(0% 0%, 0% 0%, 0% 0%, 0% 0%);
+    width: 100%;
+  }
+
+
+    .rightSection {
+    order: 1;
+    }
+
+    .leftSection {
+    order: 2;
+    }
+  
+  .content {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    text-align: center;
+  }
+  
+  .description br {
+    display: none;
+  }
+  
+  .actions {
+    justify-content: center;
+  }
+  
+  .features {
+    justify-content: center;
+  }
+  
+  .personImage {
+    width: 280px;
+    height: 350px;
+  }
+
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 2rem 0;
+  }
+  
+  .content {
+    padding: 0 1rem;
+  }
+  
+  .title br {
+    display: none;
+  }
+  
+  .actions {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  
+  .primaryButton {
+    width: 100%;
+    max-width: 280px;
+    padding: 0.875rem 1.5rem;
+  }
+  
+  .features {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  
+  .personImage {
+    width: 240px;
+    height: 300px;
+  }
+  
+  .imageContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .deliveryPerson {
+    order: 1;
+  }
+}
+
+@media (max-width: 320px) {
+  .personImage {
+    width: 200px;
+    height: 260px;
+  }
+  
+  .primaryButton {
+    font-size: 0.9rem;
+    padding: 0.75rem 1.25rem;
+  }
+}

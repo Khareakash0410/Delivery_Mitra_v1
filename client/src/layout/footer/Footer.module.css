@@ -1,0 +1,332 @@
+/* Footer - Mobile First Design */
+.footer {
+  background: linear-gradient(180deg, #f1f8e9, #ffffff); 
+  color: rgb(0, 0, 0);
+  padding: 1.5rem 0 0;
+  margin-top: auto;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Company Section - Mobile First */
+.companySection {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.brandContainer {
+  margin-bottom: 1rem;
+}
+
+.brandName {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.025em;
+}
+
+.brandDescription {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  margin: 0 auto;
+  max-width: 280px;
+}
+
+/* Contact Information - Simplified for Mobile */
+.contactInfo {
+  display: none;
+}
+
+/* Show contact info only on tablet and up */
+@media (min-width: 768px) {
+  .contactInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    text-align: left;
+  }
+}
+
+.contactItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.contactIcon {
+  color: rgba(30, 83, 46, 0.7);
+  margin-top: 0.125rem;
+  flex-shrink: 0;
+}
+
+.contactText {
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.contactLink {
+  font-size: 0.8rem;
+  line-height: 1.4;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.contactLink:hover {
+  color: rgb(38, 37, 37);
+}
+
+/* Links Container - Mobile First Minimal */
+.linksContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* Tablet - Show all 3 columns */
+@media (min-width: 768px) {
+  .linksContainer {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    text-align: left;
+  }
+}
+
+.linkSection {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Hide third column on mobile */
+.linkSection:nth-child(3) {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .linkSection:nth-child(3) {
+    display: flex;
+  }
+}
+
+.sectionTitle {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0 0 0.75rem 0;
+  letter-spacing: 0.025em;
+}
+
+.linkList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.linkItem {
+  margin: 0;
+}
+
+.footerLink {
+  display: inline-block;
+  font-size: 0.8rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  padding: 0.2rem 0;
+  position: relative;
+}
+
+.footerLink:hover {
+  color: rgb(38, 37, 37);
+}
+
+/* Remove complex hover effects on mobile */
+@media (min-width: 768px) {
+  .footerLink:hover {
+    transform: translateX(4px);
+  }
+
+  .footerLink::before {
+    content: '';
+    position: absolute;
+    left: -0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 1px;
+    background-color: white;
+    transition: width 0.2s ease;
+  }
+
+  .footerLink:hover::before {
+    width: 0.25rem;
+  }
+}
+
+/* Bottom Section - Simplified */
+.bottomSection {
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 1rem 0;
+  margin-top: 0.5rem;
+}
+
+.bottomContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Tablet and larger */
+@media (min-width: 768px) {
+  .bottomContent {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0;
+  }
+}
+
+.copyright {
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+/* Social Links - Simplified */
+.socialContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.socialLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  color: rgba(30, 83, 46, 0.7);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.socialLink:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: rgba(30, 83, 46, 0.9);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Tablet - Enhanced social links */
+@media (min-width: 768px) {
+  .socialLink {
+    width: 36px;
+    height: 36px;
+    backdrop-filter: blur(10px);
+  }
+  
+  .socialLink:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Tablet Responsive - Optimized */
+@media (min-width: 768px) {
+  .footer {
+    padding: 2rem 0 0;
+  }
+  
+  .container {
+    padding: 0 1.5rem;
+  }
+  
+  .companySection {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    text-align: left;
+  }
+  
+  .brandName {
+    font-size: 1.75rem;
+  }
+  
+  .brandDescription {
+    font-size: 0.85rem;
+    max-width: 300px;
+    margin: 0;
+  }
+  
+  .bottomSection {
+    padding: 1.25rem 0;
+    margin-top: 1.5rem;
+  }
+}
+
+/* Desktop Responsive - Enhanced */
+@media (min-width: 1024px) {
+  .footer {
+    padding: 3rem 0 0;
+  }
+  
+  .companySection {
+    grid-template-columns: 2fr 1fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+  
+  .brandName {
+    font-size: 2rem;
+  }
+  
+  .brandDescription {
+    font-size: 0.95rem;
+    max-width: 380px;
+  }
+  
+  .linksContainer {
+    gap: 2.5rem;
+  }
+  
+  .sectionTitle {
+    font-size: 1rem;
+  }
+  
+  .footerLink {
+    font-size: 0.85rem;
+  }
+  
+  .contactText,
+  .contactLink {
+    font-size: 0.85rem;
+  }
+  
+  .copyright {
+    font-size: 0.85rem;
+  }
+}
+
+/* Large Desktop */
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+    padding: 0 2rem;
+  }
+  
+  .companySection {
+    gap: 4rem;
+  }
+  
+  .brandDescription {
+    max-width: 420px;
+  }
+}

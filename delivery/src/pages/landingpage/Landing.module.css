@@ -1,0 +1,357 @@
+.container {
+  min-height: 100vh;
+  background-color: #f8fafc;
+  padding: 0 0 6rem 0;
+  margin: 0;
+}
+
+.header {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 0 0 24px 24px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  margin-bottom: 24px;
+}
+
+.earningsCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f8fafc;
+  border-radius: 16px;
+  padding: 20px;
+  color: rgb(0, 0, 0);
+  margin-bottom: 16px;
+}
+
+.earningsInfo {
+  flex: 1;
+}
+
+.earningsLabel {
+  font-size: 14px;
+  opacity: 0.8;
+  margin-bottom: 4px;
+}
+
+.earningsAmount {
+  font-size: 32px;
+  font-weight: bold;
+  color: #22c55e;
+  margin-bottom: 8px;
+}
+
+.driverName {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.riderAvatar {
+  width: 250px;
+  height: 140px;
+  background-color: #f8fafc;
+  position: relative;
+  overflow: hidden;
+}
+
+.riderImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.jobsSection {
+  padding: 0 20px;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.sectionTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.jobCard {
+  background-color: white;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  border: 1px solid #f1f5f9;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.jobHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.restaurantInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.restaurantIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background-color: #f97316;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.restaurantDetails {
+  flex: 1;
+}
+
+.restaurantName {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 4px;
+}
+
+.restaurantAddress {
+  font-size: 13px;
+  color: #64748b;
+  line-height: 1.3;
+}
+
+.distanceBadge {
+  background-color: #dcfce7;
+  color: #16a34a;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.customerSection {
+  margin-bottom: 16px;
+}
+
+.customerInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.customerAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.customerDetails {
+  flex: 1;
+}
+
+.customerName {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 2px;
+}
+
+.orderId {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.deliveryTime {
+  background-color: #1e293b;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.deliveryAddress {
+  font-size: 13px;
+  color: #64748b;
+  line-height: 1.4;
+  margin-left: 52px;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.acceptButton {
+  flex: 1;
+  background-color: #22c55e;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.acceptButton:active {
+  transform: translateY(0);
+}
+
+.rejectButton {
+  flex: 1;
+  background-color: #f1f5f9;
+  color: #64748b;
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.rejectButton:active {
+  transform: translateY(0);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 480px) {
+  .header {
+    padding: 16px;
+  }
+  
+  .earningsCard {
+    padding: 16px;
+  }
+  
+  .earningsAmount {
+    font-size: 28px;
+  }
+  
+  .riderAvatar {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .riderImage {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .jobsSection {
+    padding: 0 16px;
+  }
+  
+  .jobCard {
+    padding: 16px;
+  }
+  
+  .actionButtons {
+    flex-direction: column;
+  }
+  
+  .acceptButton,
+  .rejectButton {
+    padding: 12px;
+    font-size: 14px;
+  }
+}
+
+/* Loading animation for buttons */
+.acceptButton.loading {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.acceptButton.loading::after {
+  content: '';
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-left: 8px;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Pulse animation for new orders */
+.jobCard.newOrder {
+  animation: pulse 2s infinite;
+  border: 1px solid #22c55e;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  50% { box-shadow: 0 4px 24px rgba(34, 197, 94, 0.2); }
+  100% { box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+}
+
+/* Empty state styles */
+.emptyState {
+  text-align: center;
+  padding: 40px 20px;
+  color: #64748b;
+}
+
+.emptyIcon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.emptyTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 8px;
+}
+
+.emptyMessage {
+  font-size: 14px;
+  line-height: 1.5;
+  max-width: 280px;
+  margin: 0 auto;
+}
+
+/* Enhanced button disabled states */
+.acceptButton:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.rejectButton:disabled {
+  background-color: #e5e7eb;
+  color: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+}

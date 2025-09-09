@@ -1,0 +1,119 @@
+.searchContainer {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  max-width: 400px;
+  min-width: 250px;
+}
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  background: #f5f8fa;
+  border: 2px solid #e2e8f0;
+  border-radius: 30px;
+  padding: 0.5rem 1rem;
+  width: 100%;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.searchBar:focus-within {
+  background: #ffffff;
+}
+
+.searchIcon {
+  color: #64748b;
+  flex-shrink: 0;
+  margin-right: 0.75rem;
+  transition: color 0.2s ease;
+}
+
+.searchBar:focus-within .searchIcon {
+  color: #2d7a56;
+}
+
+.searchInput {
+  border: none;
+  background: none;
+  outline: none;
+  flex: 1;
+  font-size: 0.95rem;
+  color: #1f2937;
+  font-weight: 400;
+}
+
+.searchInput::placeholder {
+  color: #9ca3af;
+  font-weight: 400;
+}
+
+@media (max-width: 1200px) {  
+  .searchContainer {
+    max-width: 300px;
+    min-width: 200px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .searchContainer {
+    max-width: 250px;
+    min-width: 180px;
+  }
+}
+
+@media (max-width: 900px) {
+  .searchContainer {
+    flex: 1;
+    max-width: none;
+    min-width: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .searchContainer {
+    min-width: 150px;
+  }
+  
+  .searchBar {
+    padding: 0.625rem 0.875rem;
+  }
+  
+  .searchInput {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .searchContainer {
+    order: 3;
+    flex: 1 1 100%;
+    margin-top: 0.75rem;
+    max-width: none;
+    min-width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .searchBar {
+    padding: 0.5rem 0.75rem;
+  }
+  
+  .searchInput {
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .searchBar {
+    padding: 0.5rem;
+  }
+  
+  .searchInput {
+    font-size: 0.8rem;
+  }
+  
+  .searchIcon {
+    margin-right: 0.5rem;
+  }
+}

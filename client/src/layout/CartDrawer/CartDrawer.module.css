@@ -1,0 +1,269 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1200;
+  backdrop-filter: blur(2px);
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Cart Drawer - Mobile First */
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 85%;
+  max-width: 400px;
+  height: 100vh;
+  background: linear-gradient(145deg, #f0f9f0 0%, #ffffff 100%);
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  z-index: 1200;
+  border-left: 1px solid #e8f5e8;
+}
+
+.drawerOpen {
+  transform: translateX(0);
+}
+
+.drawerClosed {
+  transform: translateX(100%);
+}
+
+/* Header Section */
+.header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem;
+  border-bottom: 1px solid #e8f5e8;
+  background-color: #ffffff;
+}
+
+.closeButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  touch-action: manipulation;
+}
+
+.closeButton:hover {
+  background-color: #f0f9f0;
+  transform: scale(1.1);
+}
+
+.closeButton:active {
+  transform: scale(0.95);
+}
+
+.closeIcon {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #2d7a56;
+}
+
+/* Content Area */
+.contentArea {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  background: linear-gradient(145deg, #f0f9f0 0%, #ffffff 100%);
+  scrollbar-width: thin;
+  scrollbar-color: #c6e6c6 transparent;
+}
+
+.contentArea::-webkit-scrollbar {
+  width: 6px;
+}
+
+.contentArea::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.contentArea::-webkit-scrollbar-thumb {
+  background: #c6e6c6;
+  border-radius: 3px;
+}
+
+.contentArea::-webkit-scrollbar-thumb:hover {
+  background: #a8d5a8;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #2d7a56;
+  letter-spacing: -0.025em;
+}
+
+.cartItems {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Empty Cart State */
+.emptyCart {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  text-align: center;
+}
+
+.emptyText {
+  color: #666;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Checkout Footer */
+.footer {
+  padding: 1rem;
+  background: linear-gradient(145deg, #ffffff 0%, #f0f9f0 100%);
+  border-top: 1px solid #e8f5e8;
+  position: sticky;
+  bottom: 4.4rem;
+}
+
+.checkoutButton {
+  width: 100%;
+  background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+  color: white;
+  padding: 0.875rem 1rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+  touch-action: manipulation;
+  min-height: 48px;
+}
+
+.checkoutButton:hover {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(34, 197, 94, 0.4);
+}
+
+.checkoutButton:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);
+}
+
+.disclaimerText {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin-top: 0.75rem;
+  text-align: center;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+
+/* Small Mobile (480px+) */
+@media (min-width: 480px) {
+  .drawer {
+    width: 75%;
+    max-width: 450px;
+  }
+  
+  .title {
+    font-size: 1.375rem;
+  }
+  
+  .checkoutButton {
+    padding: 1rem;
+    font-size: 1.05rem;
+  }
+  
+  .disclaimerText {
+    font-size: 0.85rem;
+  }
+}
+
+/* Tablet (768px+) */
+@media (min-width: 768px) {
+  .drawer {
+    width: 50%;
+    max-width: 500px;
+  }
+  
+  .header {
+    padding: 1.25rem;
+  }
+  
+  .contentArea {
+    padding: 1.25rem;
+  }
+  
+  .footer {
+    padding: 1.25rem;
+  }
+  
+  .closeButton {
+    width: 44px;
+    height: 44px;
+  }
+  
+  .closeIcon {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+}
+
+/* Desktop (1024px+) */
+@media (min-width: 1024px) {
+  .drawer {
+    width: 400px;
+    max-width: 500px;
+  }
+  
+  .contentArea {
+    padding: 1.5rem;
+  }
+  
+  .footer {
+    padding: 1.5rem;
+  }
+  
+  .header {
+    padding: 1.5rem;
+  }
+}
+
+/* Large Desktop (1280px+) */
+@media (min-width: 1280px) {
+  .drawer {
+    width: 480px;
+    max-width: 600px;
+  }
+}

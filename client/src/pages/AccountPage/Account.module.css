@@ -1,0 +1,700 @@
+.container {
+  background-color: #f8fafc;
+  padding: 1rem 1rem 3rem 1rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding: 0 0.5rem;
+}
+
+.pageTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.headerActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.headerButton {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border: none;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.headerButton:hover {
+  background-color: #f9fafb;
+  transform: translateY(-1px);
+}
+
+.headerIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #6b7280;
+}
+
+/* User Section */
+.userSection {
+  background-color: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.userAvatar {
+  position: relative;
+  width: 4rem;
+  height: 4rem;
+  background: linear-gradient(135deg, #e0f2fe 0%, #b3e5fc 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.avatarIcon {
+  width: 2rem;
+  height: 2rem;
+  color: #0284c7;
+}
+
+.editBadge {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  background-color: #f97316;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
+}
+
+.editBadgeIcon {
+  width: 0.675rem;
+  height: 0.675rem;
+  color: white;
+}
+
+.userDetails {
+  flex: 1;
+}
+
+.userName {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 0.25rem 0;
+}
+
+.userEmail {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0 0 0.125rem 0;
+}
+
+.userMeta {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  margin: 0;
+}
+
+/* Menu Section */
+.menuSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.menuItem {
+  background-color: white;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.menuButton {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.menuButton:hover {
+  background-color: #f9fafb;
+}
+
+.menuButtonActive {
+  background-color: #f0f9ff;
+}
+
+.menuButtonLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.menuIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #6b7280;
+}
+
+.menuTitle {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #374151;
+  text-align: left;
+}
+
+.chevronIcon {
+  width: 1rem;
+  height: 1rem;
+  color: #9ca3af;
+  transition: transform 0.2s ease;
+}
+
+/* Logout Button Specific */
+.logoutButton {
+  color: #dc2626;
+}
+
+.logoutButton .menuIcon {
+  color: #dc2626;
+}
+
+.logoutButton .menuTitle {
+  color: #dc2626;
+}
+
+.logoutButton:hover {
+  background-color: #fef2f2;
+}
+
+/* Dropdown Content */
+.dropdown {
+  border-top: 1px solid #f3f4f6;
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdownContent {
+  padding: 1rem 1.25rem;
+}
+
+/* Profile Details Dropdown */
+.profileItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.profileItem:last-of-type {
+  border-bottom: none;
+}
+
+.profileIcon {
+  width: 1rem;
+  height: 1rem;
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
+.profileInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.profileLabel {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+.profileValue {
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+/* New Input Styles */
+.profileInput {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  color: #374151;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  outline: none;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.profileInput:focus {
+  background-color: white;
+  border-color: #0284c7;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1);
+}
+
+.profileInput:hover {
+  border-color: #d1d5db;
+}
+
+/* Updated Button Styles */
+.editButton,
+.updateButton {
+  width: 100%;
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  background-color: #f3f4f6;
+  border: none;
+  border-radius: 0.5rem;
+  color: #374151;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+}
+
+.updateButton {
+  background-color: #0284c7;
+  color: white;
+}
+
+.updateButton:hover {
+  background-color: #0369a1;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(2, 132, 199, 0.2);
+}
+
+.editButton:hover {
+  background-color: #e5e7eb;
+}
+
+.editIcon {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Order History Table Styles */
+.tableContainer {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 0.5rem;
+  border: 1px solid #f3f4f6;
+}
+
+.orderTable {
+  width: 100%;
+  min-width: 700px;
+  border-collapse: collapse;
+  background-color: white;
+}
+
+.tableHeader {
+  background-color: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.tableHeaderCell {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.tableRow {
+  border-bottom: 1px solid #f3f4f6;
+  transition: background-color 0.2s ease;
+}
+
+.tableRow:hover {
+  background-color: #f9fafb;
+}
+
+.tableRow:last-child {
+  border-bottom: none;
+}
+
+.tableCell {
+  padding: 1rem;
+  font-size: 0.875rem;
+  color: #374151;
+  vertical-align: middle;
+}
+
+.orderId {
+  font-weight: 600;
+  color: #0284c7;
+  font-family: monospace;
+}
+
+.productImage {
+  width: 2.5rem;
+  height: 2.5rem;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.productName {
+  font-weight: 500;
+  color: #111827;
+  line-height: 1.4;
+  display: block;
+  max-width: 200px;
+  white-space: normal;
+}
+
+.price {
+  font-weight: 600;
+  color: #059669;
+  font-size: 0.875rem;
+}
+
+.orderStatus {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  white-space: nowrap;
+}
+
+/* Status Color Variants */
+.statusDelivered {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.statusProcessing {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.statusShipped {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+.statusCancelled {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.statusDefault {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+/* Wishlist Dropdown */
+.wishlistItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.wishlistItem:last-of-type {
+  border-bottom: none;
+}
+
+.wishlistImage {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  background-color: #fef3c7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+.wishlistInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  flex: 1;
+}
+
+.wishlistName {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.wishlistPrice {
+  font-size: 0.75rem;
+  color: #ef4444;
+  font-weight: 600;
+}
+
+/* Help Center Dropdown */
+.helpItem {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f3f4f6;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.helpItem:last-child {
+  border-bottom: none;
+}
+
+.helpItem:hover {
+  background-color: #f9fafb;
+  margin: 0 -1.25rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+.helpTitle {
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+/* Common Buttons */
+.viewAllButton,
+.addButton {
+  width: 100%;
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  background-color: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 0.5rem;
+  color: #0284c7;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.viewAllButton:hover,
+.addButton:hover {
+  background-color: #e0f2fe;
+  border-color: #7dd3fc;
+}
+
+/* Tablet Design - 768px and up */
+@media (min-width: 768px) {
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .pageTitle {
+    font-size: 1.75rem;
+  }
+
+  .userAvatar {
+    width: 5rem;
+    height: 5rem;
+  }
+
+  .avatarIcon {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .userName {
+    font-size: 1.25rem;
+  }
+
+  .userEmail {
+    font-size: 1rem;
+  }
+
+  .menuButton {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .menuTitle {
+    font-size: 1.125rem;
+  }
+
+  .profileInput {
+    padding: 0.625rem 1rem;
+    font-size: 1rem;
+  }
+
+  .updateButton,
+  .editButton {
+    padding: 1rem;
+    font-size: 1rem;
+  }
+
+  .editIcon {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+
+  /* Table responsive styles for tablet */
+  .orderTable {
+    min-width: 800px;
+  }
+
+  .tableHeaderCell {
+    padding: 1rem 1.25rem;
+    font-size: 0.875rem;
+  }
+
+  .tableCell {
+    padding: 1.25rem;
+    font-size: 1rem;
+  }
+
+  .productImage {
+    width: 3rem;
+    height: 3rem;
+    font-size: 1.5rem;
+  }
+
+  .productName {
+    max-width: 250px;
+  }
+
+  .price {
+    font-size: 1rem;
+  }
+
+  .orderStatus {
+    font-size: 0.875rem;
+    padding: 0.375rem 0.75rem;
+  }
+}
+
+/* Desktop Design - 1024px and up */
+@media (min-width: 1024px) {
+  .container {
+    max-width: 800px;
+    padding: 3rem;
+  }
+
+  .userSection {
+    padding: 2rem;
+  }
+
+  .userAvatar {
+    width: 6rem;
+    height: 6rem;
+  }
+
+  .avatarIcon {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .dropdownContent {
+    padding: 1.5rem;
+  }
+
+  .profileInput {
+    padding: 0.75rem 1.125rem;
+    font-size: 1rem;
+  }
+
+  .profileInput:focus {
+    box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.1);
+  }
+
+  /* Table responsive styles for desktop */
+  .orderTable {
+    min-width: 900px;
+  }
+
+  .tableContainer {
+    border-radius: 0.75rem;
+  }
+
+  .tableHeaderCell {
+    padding: 1.25rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .tableCell {
+    padding: 1.5rem;
+  }
+
+  .productImage {
+    width: 3.5rem;
+    height: 3.5rem;
+    font-size: 1.75rem;
+  }
+
+  .productName {
+    max-width: 300px;
+    font-size: 1rem;
+  }
+
+  .orderId {
+    font-size: 1rem;
+  }
+
+  .price {
+    font-size: 1.125rem;
+  }
+
+  .orderStatus {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+  }
+}

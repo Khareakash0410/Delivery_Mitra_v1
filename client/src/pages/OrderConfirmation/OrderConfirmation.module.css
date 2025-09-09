@@ -1,0 +1,335 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  background-color: #f9fafb;
+  padding: 1rem 1rem 3rem 1rem;
+  gap: 1.5rem;
+}
+
+.leftSection {
+  flex: 1;
+}
+
+.thankYouCard {
+  background-color: white;
+  border-radius: 0.75rem;
+  padding: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  height: fit-content;
+}
+
+.thankYouTitle {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.2;
+  margin: 0 0 1.5rem 0;
+}
+
+.thankYouMessage {
+  color: #6b7280;
+  line-height: 1.6;
+  margin: 0 0 2rem 0;
+  font-size: 0.95rem;
+}
+
+/* Billing Section */
+.billingSection {
+  margin-bottom: 2rem;
+}
+
+.sectionTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 1rem 0;
+}
+
+.billingDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.billingRow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.billingLabel {
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.875rem;
+}
+
+.billingValue {
+  color: #6b7280;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+/* Track Button */
+.trackButton {
+  width: 100%;
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.875rem 1.5rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+/* Right Section - Order Summary */
+.rightSection {
+  flex: 1;
+}
+
+.orderSummaryCard {
+  background-color: white;
+  border-radius: 0.75rem;
+  padding: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  height: fit-content;
+}
+
+.orderSummaryTitle {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 1.5rem 0;
+  text-align: center;
+}
+
+/* Order Info */
+.orderInfo {
+  margin-bottom: 2rem;
+}
+
+.orderInfoRow {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.orderInfoItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.orderInfoLabel {
+  font-size: 0.75rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.orderInfoValue {
+  font-size: 0.875rem;
+  color: #111827;
+  font-weight: 600;
+}
+
+/* Order Items */
+.orderItems {
+  margin-bottom: 1.5rem;
+}
+
+.orderItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.orderItem:last-child {
+  border-bottom: none;
+}
+
+.itemImage {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.5rem;
+  background-color: #fef3c7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.itemDetails {
+  flex: 1;
+}
+
+.itemName {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 0.25rem 0;
+}
+
+.itemSize {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin: 0 0 0.125rem 0;
+}
+
+.itemQuantity {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+.itemPrice {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* Pricing Summary */
+.pricingSummary {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 1rem;
+}
+
+.pricingRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.pricingLabel {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.pricingValue {
+  font-size: 0.875rem;
+  color: #111827;
+}
+
+.orderTotal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.75rem;
+  border-top: 1px solid #e5e7eb;
+  margin-top: 0.75rem;
+}
+
+.orderTotalLabel {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.orderTotalValue {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* Tablet Design - 768px and up */
+@media (min-width: 768px) {
+  .container {
+    flex-direction: row;
+    padding: 2rem;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .leftSection {
+    flex: 1.2;
+  }
+
+  .rightSection {
+    flex: 0.8;
+  }
+
+  .thankYouTitle {
+    font-size: 2.25rem;
+  }
+
+  .thankYouMessage {
+    font-size: 1rem;
+  }
+
+  .orderInfoRow {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .billingRow {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .billingLabel {
+    min-width: 5rem;
+    flex-shrink: 0;
+  }
+
+  .trackButton {
+    width: auto;
+    padding: 1rem 2rem;
+  }
+}
+
+/* Desktop Design - 1024px and up */
+@media (min-width: 1024px) {
+  .container {
+    padding: 3rem;
+    gap: 3rem;
+  }
+
+  .thankYouCard,
+  .orderSummaryCard {
+    padding: 2.5rem;
+  }
+
+  .thankYouTitle {
+    font-size: 2.5rem;
+  }
+
+  .orderItem {
+    padding: 1.25rem 0;
+  }
+
+  .itemImage {
+    width: 3.5rem;
+    height: 3.5rem;
+    font-size: 1.75rem;
+  }
+
+  .itemName {
+    font-size: 1rem;
+  }
+
+  .itemPrice {
+    font-size: 1rem;
+  }
+}
+
+/* Large Desktop - 1440px and up */
+@media (min-width: 1440px) {
+  .container {
+    max-width: 1400px;
+  }
+
+  .leftSection {
+    flex: 1.5;
+  }
+
+  .rightSection {
+    flex: 1;
+  }
+}

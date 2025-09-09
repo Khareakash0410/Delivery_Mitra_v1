@@ -1,0 +1,42 @@
+{
+  "extends": [
+    "development"
+  ],
+  "hints": {
+    "axe/name-role-value": [
+      "default",
+      {
+        "button-name": "off"
+      }
+    ],
+    "compat-api/css": [
+      "default",
+      {
+        "ignore": [
+          "scrollbar-width",
+          "scrollbar-width: none",
+          "backdrop-filter",
+          "min-height: auto",
+          "scrollbar-color",
+          "scrollbar-width: thin",
+          "user-select",
+          "-webkit-overflow-scrolling"
+        ]
+      }
+    ],
+    "button-type": "off",
+    "axe/forms": [
+      "default",
+      {
+        "label": "off",
+        "select-name": "off"
+      }
+    ],
+    "axe/aria": [
+      "default",
+      {
+        "aria-valid-attr-value": "off"
+      }
+    ]
+  }
+}

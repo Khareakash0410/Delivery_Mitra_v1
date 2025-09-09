@@ -1,0 +1,229 @@
+.container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 1.5rem;
+  background-color: #ffffff;
+  min-height: 100vh;
+}
+
+.mainheader {
+  margin-bottom: 1.5rem;
+}
+
+.maintitle {
+  font-size: 1.275rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+.header {
+  display: flex;
+  background-color: #ffffff;
+  border-bottom: 2px solid #e9ecef;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tab {
+  flex: 1;
+  padding: 12px 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  background-color: transparent;
+  color: #6c757d;
+  font-size: 14px;
+  font-weight: 600;
+  position: relative;
+}
+
+.tabActive {
+  background-color: #ffffff;
+  color: #212529;
+}
+
+.tabActive::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: #007bff;
+}
+
+/* Content Styles */
+.tabContent {
+  padding: 16px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 100%;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 4px;
+}
+
+.input {
+  padding: 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: white;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+}
+
+.input:focus {
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.input::placeholder {
+  color: #6c757d;
+}
+
+.textarea {
+  padding: 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: white;
+  resize: vertical;
+  min-height: 80px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  font-family: inherit;
+}
+
+.textarea:focus {
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.textarea::placeholder {
+  color: #6c757d;
+}
+
+/* Upload Styles */
+.uploadArea {
+  border: 2px dashed #ced4da;
+  border-radius: 8px;
+  padding: 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+  background-color: white;
+}
+
+.uploadIcon {
+  width: 32px;
+  height: 32px;
+  color: #6c757d;
+  margin: 0 auto 8px;
+}
+
+.uploadText {
+  font-size: 14px;
+  color: #6c757d;
+  font-weight: 500;
+  margin: 0;
+}
+
+.logoPreview {
+  max-width: 100px;
+  max-height: 60px;
+  margin-top: 8px;
+  border-radius: 4px;
+  border: 1px solid #e9ecef;
+}
+
+/* Button Styles */
+.buttonGroup {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.button {
+  flex: 1;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+}
+
+.saveButton {
+  background-color: #007bff;
+  color: white;
+}
+
+.saveButton:active {
+  transform: translateY(0);
+}
+
+.cancelButton {
+  background-color: #6c757d;
+  color: white;
+}
+
+.cancelButton:active {
+  transform: translateY(0);
+}
+
+.hidden {
+  display: none;
+}
+
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    min-height: calc(100vh - 40px);
+  }
+
+  .tabContent {
+    padding: 24px;
+  }
+
+  .form {
+    gap: 20px;
+  }
+
+  .buttonGroup {
+    gap: 16px;
+    margin-top: 32px;
+  }
+
+  .tab {
+    padding: 16px;
+    font-size: 16px;
+  }
+}

@@ -1,0 +1,372 @@
+.container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0.375rem;
+  background-color: #ffffff;
+  min-height: 100vh;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding: 0.5rem 0;
+}
+
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: #ffffff;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.pageTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 100%;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  padding: 1rem;
+  transition: all 0.3s ease;
+}
+
+.cardTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 1rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #f3f4f6;
+}
+
+.agentHeader {
+  margin-bottom: 1rem;
+}
+
+.profileSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.75rem;
+}
+
+.profileImage {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #e5e7eb;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.agentInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.agentName {
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.statusWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.joinDate {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  background-color: #f3f4f6;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+}
+
+.contactGrid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: 1fr;
+}
+
+.contactItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  background-color: #f8fafc;
+  transition: all 0.2s ease;
+  border: 1px solid #f1f5f9;
+}
+
+.contactIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.5rem;
+  background-color: #eff6ff;
+  color: #3b82f6;
+  flex-shrink: 0;
+}
+
+.vehicleDefault {
+  background-color: #eff6ff;
+  color: #2563eb;
+}
+
+.contactContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.contactLabel {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.contactValue {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #111827;
+  word-break: break-all;
+}
+
+.vehicleNumber {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #111827;
+  font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+  background-color: #f9fafb;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  letter-spacing: 0.025em;
+  border: 1px solid #e5e7eb;
+}
+
+.contactValueWithAction {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.bankHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.bankGrid {
+  display: grid;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  grid-template-columns: 1fr;
+}
+
+.bankItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.875rem;
+  border-radius: 0.5rem;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+}
+
+.bankIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.5rem;
+  background-color: #fef3c7;
+  color: #d97706;
+  flex-shrink: 0;
+}
+
+.bankContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.bankLabel {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.bankValue {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #111827;
+  word-break: break-all;
+}
+
+.bankValueWithActions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.bankActions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.copyButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  background-color: #eff6ff;
+  color: #3b82f6;
+}
+.copyButton:active {
+  transform: translateY(0);
+}
+
+/* Tablet (640px and up) */
+@media (min-width: 640px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .header {
+    margin-bottom: 1.5rem;
+  }
+
+  .pageTitle {
+    font-size: 1.5rem;
+  }
+
+  .content {
+    gap: 1.5rem;
+  }
+
+  .card {
+    padding: 1.5rem;
+  }
+
+  .cardTitle {
+    font-size: 1.125rem;
+  }
+
+  .profileSection {
+    flex-direction: row;
+    text-align: left;
+    gap: 1rem;
+  }
+
+  .profileImage {
+    width: 5rem;
+    height: 5rem;
+  }
+
+  .agentName {
+    font-size: 1.5rem;
+  }
+
+  .agentRole {
+    font-size: 1rem;
+  }
+
+  .statusWrapper {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .contactGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .bankGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .copyButton {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+/* Desktop (768px and up) */
+@media (min-width: 768px) {
+  .container {
+    padding: 1.5rem;
+  }
+
+  .pageTitle {
+    font-size: 1.75rem;
+  }
+
+  .agentName {
+    font-size: 1.75rem;
+  }
+
+  .contactValue,
+  .bankValue {
+    font-size: 1rem;
+  }
+
+  .contactLabel,
+  .bankLabel {
+    font-size: 0.8125rem;
+  }
+
+  .vehicleNumber {
+    font-size: 1rem;
+  }
+}

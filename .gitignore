@@ -1,0 +1,9 @@
+# Dependency directories
+server/node_modules/
+client/node_modules/
+admin/node_modules/
+vendor/node_modules/
+
+
+# Environment variables
+server/.env

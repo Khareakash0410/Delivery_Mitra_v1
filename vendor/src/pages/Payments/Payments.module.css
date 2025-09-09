@@ -1,0 +1,319 @@
+.container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 1.5rem;
+  background-color: #ffffff;
+  min-height: 100vh;
+}
+
+.header {
+  margin-bottom: 1.5rem;
+}
+
+.title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+.subtitle {
+  color: #6b7280;
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.tableContainer {
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+}
+
+.tableWrapper {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tableHead {
+  background-color: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.tableHeader {
+  padding: 0.75rem 0.5rem;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #4b5563;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.tableBody {
+  background-color: #ffffff;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.tableRow {
+  border-bottom: 1px solid #000000;
+  background-color: #f3f4f6;;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.tableCell {
+  padding: 3rem 1rem;
+  font-size: 0.875rem;
+  color: #374151;
+  vertical-align: middle;
+  text-align: start;
+}
+
+.productPrice {
+  font-weight: 500;
+  color: #059669;
+  font-size: 0.9375rem;
+}
+
+.actionButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.375rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  flex-shrink: 0;
+}
+
+.noDataCell {
+  padding: 3rem;
+  text-align: center;
+  color: #9ca3af;
+  font-style: italic;
+}
+
+/* Pagination Styles */
+.pagination {
+  margin-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.paginationControls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.navButton {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  background-color: #ffffff;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  white-space: nowrap;
+}
+
+.navButton:hover:not(.navButtonDisabled) {
+  background-color: #f9fafb;
+  transform: translateY(-1px);
+}
+
+.navButtonDisabled {
+  background-color: #f9fafb;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.navIcon {
+  margin-right: 0.25rem;
+  flex-shrink: 0;
+}
+
+.navButton:last-child .navIcon {
+  margin-right: 0;
+  margin-left: 0.25rem;
+}
+
+.pageButtons {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.pageButton {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  background-color: #ffffff;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  min-width: 2.5rem;
+}
+.pageButtonActive {
+  background-color: #000000;
+  color: #ffffff;
+  border-color: #000000;
+}
+
+.pageInfo {
+  font-size: 0.875rem;
+  color: #374151;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0.75rem;
+    min-height: auto;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+  }
+  
+  .table {
+    min-width: 600px;
+  }
+  
+  .tableCell {
+    padding: 1rem 0.75rem;
+  }
+  
+  .pagination {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+  }
+  
+  .paginationControls {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .navButton,
+  .pageButton {
+    padding: 0.375rem 0.5rem;
+    font-size: 0.8125rem;
+  }
+  
+  .pageInfo {
+    font-size: 0.8125rem;
+  }
+  
+  .categoryTag {
+    font-size: 0.6875rem;
+    padding: 0.1875rem 0.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 0.5rem;
+  }
+  
+  .title {
+    font-size: 1.25rem;
+  }
+  
+  .table {
+    min-width: 500px;
+  }
+  
+  .tableCell {
+    padding: 1rem 0.5rem;
+    font-size: 0.75rem;
+  }
+  
+  .productName {
+    font-size: 0.8125rem;
+  }
+  
+  .productPrice {
+    font-size: 0.875rem;
+  }
+  
+  .actionButton {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+  
+  .navButton {
+    padding: 0.25rem 0.375rem;
+    font-size: 0.75rem;
+  }
+  
+  .pageButton {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    min-width: 2rem;
+  }
+  
+  .pageInfo {
+    font-size: 0.75rem;
+  }
+  
+  .categoryTag {
+    font-size: 0.625rem;
+    padding: 0.125rem 0.375rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0.375rem;
+  }
+  
+  .title {
+    font-size: 1.125rem;
+    line-height: 1.3;
+  }
+  
+  .table {
+    min-width: 450px;
+  }
+  
+  .tableCell {
+    padding: 1rem 0.375rem;
+  }
+  
+  .actionButton {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  
+  .paginationControls {
+    gap: 0.25rem;
+  }
+  
+  .navButton {
+    padding: 0.1875rem 0.25rem;
+    font-size: 0.6875rem;
+  }
+  
+  .navIcon {
+    margin: 0 0.125rem;
+  }
+}

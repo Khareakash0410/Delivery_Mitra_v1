@@ -1,0 +1,272 @@
+
+.shopByCategory {
+  padding: 2rem 0;
+  background-color: #fafafa;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.seeAllBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  color: #22c55e;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.5rem 0;
+  transition: opacity 0.2s ease;
+}
+
+.seeAllBtn:hover {
+  opacity: 0.8;
+}
+
+.arrowIcon {
+  transition: transform 0.2s ease;
+}
+
+.seeAllBtn:hover .arrowIcon {
+  transform: translateX(2px);
+}
+
+.categoriesWrapper {
+  position: relative;
+  overflow: hidden;
+  margin: 0 -0.5rem;
+}
+
+.categoriesContainer {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 0 0.5rem;
+}
+
+.categoriesContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.categoryCard {
+  flex: 0 0 auto;
+  width: 180px;
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 1px solid #f0f0f0;
+}
+
+.categoryCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border-color: #22c55e;
+}
+
+.categoryImage {
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  transition: background 0.3s ease;
+}
+
+.emoji {
+  font-size: 2.5rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.categoryInfo {
+  text-align: left;
+}
+
+.categoryName {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0 0 0.25rem 0;
+  line-height: 1.4;
+}
+
+.itemCount {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin: 0;
+  font-weight: 400;
+}
+
+.scrollIndicator {
+  display: none;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.scrollDots {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #d1d5db;
+  transition: background-color 0.3s ease;
+}
+
+.dot.active {
+  background-color: #22c55e;
+}
+
+/* Tablet Styles */
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 1.5rem;
+  }
+  
+  .categoryCard {
+    width: 160px;
+    padding: 1.25rem;
+  }
+  
+  .categoryImage {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .emoji {
+    font-size: 2.25rem;
+  }
+  
+  .categoryName {
+    font-size: 0.9rem;
+  }
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+  .shopByCategory {
+    padding: 1.5rem 0;
+  }
+  
+  .container {
+    padding: 0 1rem;
+  }
+  
+  .header {
+    margin-bottom: 1.5rem;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+  }
+  
+  .seeAllBtn {
+    font-size: 0.8rem;
+  }
+  
+  .categoriesWrapper {
+    margin: 0;
+  }
+  
+  .categoriesContainer {
+    padding: 0 1rem;
+    gap: 0.75rem;
+  }
+  
+  .categoryCard {
+    width: 140px;
+    padding: 1rem;
+  }
+  
+  .categoryImage {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .emoji {
+    font-size: 2rem;
+  }
+  
+  .categoryName {
+    font-size: 0.85rem;
+  }
+  
+  .itemCount {
+    font-size: 0.7rem;
+  }
+  
+  .scrollIndicator {
+    display: flex;
+  }
+}
+
+/* Small Mobile Styles */
+@media (max-width: 480px) {
+  .shopByCategory {
+    padding: 1rem 0;
+  }
+  
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .title {
+    font-size: 1.25rem;
+  }
+  
+  .categoryCard {
+    width: 120px;
+    padding: 0.75rem;
+  }
+  
+  .categoryImage {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 0.75rem;
+  }
+  
+  .emoji {
+    font-size: 1.75rem;
+  }
+  
+  .categoryName {
+    font-size: 0.8rem;
+    line-height: 1.3;
+  }
+  
+  .itemCount {
+    font-size: 0.65rem;
+  }
+}

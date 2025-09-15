@@ -1,7 +1,5 @@
 import { Op } from "sequelize";
 import { Address, User, OTP, Order, OrderItem, Product, ProductImage, ProductOptions } from "../models/index.js";
-import { sendToken } from "../utils/sendToken.js";
-
 export default class UserService {
 
     static async getUserByPhone (phone) {
@@ -29,10 +27,9 @@ export default class UserService {
         });
 
         if (!user) {
-            return null
+            return {status: 0, message: "Failed to fetch"};
         }
-
-        return user.get({plain: true});
+        return {status: 1, message: "User profile fethced", data: user.get({plain: true})};
     }
 
     static async getUserOrders (id) {
@@ -128,12 +125,11 @@ export default class UserService {
         }
     }
 
-    static async verifyOtp(name, phone, otp, utm_source, utm_medium, utm_campaign, res) {
+    static async verifyOtp(name, phone, otp, utm_source, utm_medium, utm_campaign) {
         const validOtp = await OTP.findOne({
             where: {
                 otp,
                 phone,
-                name,
                 isUsed: false,
                 expiresAt: {
                     [Op.gt]: new Date()
@@ -158,7 +154,9 @@ export default class UserService {
             validOtp.isUsed = true;
             await validOtp.save();
 
-            return { status: 1, message: "OTP verified successfully", data: user.get({plain: true}) }; 
+
+
+            return { status: 1, message: "OTP verified successfully", data: user}; 
         } catch (error) {
             return { status: 0, message: error.message }; 
         }
@@ -188,7 +186,7 @@ export default class UserService {
         }
     }
 
-    static async verifyLoginOtp (phone, otp, utm_source, utm_medium, utm_campaign, res) {
+    static async verifyLoginOtp (phone, otp, utm_source, utm_medium, utm_campaign) {
         try {
             const validOtp = await OTP.findOne({
                 where: {
@@ -218,14 +216,14 @@ export default class UserService {
                 utmMedium: utm_medium || user.utmMedium
             });
 
-            return {status: 1, message: "Login successfully", data: user.get({plain: true})};
+            return {status: 1, message: "Login successfully", data:user};
         } catch (error) {
             return {status: 0, message: error.message};
         }
     }
 
     static async updateUserProfile(userId, updateData) {
-        const allowedFields = ["name", "emailId", "profilePic"];
+        const allowedFields = ["name", "email", "profilePic"];
 
         const updatePayload = {};
 

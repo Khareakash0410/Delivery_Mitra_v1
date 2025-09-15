@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styles from './Topbar.module.css';
-import { ShoppingCart, User, Bell } from 'lucide-react';
+import { ShoppingCart, User } from 'lucide-react';
 import CartDrawer from '../../layout/CartDrawer/CartDrawer';
 import SearchBar from '../SearchBar/SearchBar';
 import { useNavigate } from 'react-router-dom';
@@ -32,10 +32,6 @@ const Topbar = () => {
 
           {/* Header Actions */}
           <div className={styles.headerActions}>
-            <button className={styles.iconButton} aria-label="Notifications">
-              <Bell size={20} />
-              <span className={styles.notificationBadge}>3</span>
-            </button>
             <button onClick={toggleCart} className={styles.iconButton} aria-label="Shopping Cart">
               <ShoppingCart size={20} />
               <span className={styles.cartBadge}>2</span>

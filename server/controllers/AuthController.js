@@ -1,5 +1,5 @@
-import { CatchAsyncError } from "../middleware/CatchAsyncError";
-import { successResponse } from "../utils/responseUtil";
+import { CatchAsyncError } from "../middleware/CatchAsyncError.js";
+import { successResponse } from "../utils/responseUtil.js";
 
 export const logout = CatchAsyncError(async(req, res) => {
    res.status(200).clearCookie("token", {

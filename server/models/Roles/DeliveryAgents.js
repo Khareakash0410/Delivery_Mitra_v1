@@ -15,7 +15,6 @@ const DeliveryAgents = sequelize.define("DeliveryAgents", {
     email: {
         type: DataTypes.STRING(100),
         allowNull: false,
-        unique: true,
         validate: {
         isEmail: true
         }
@@ -27,7 +26,6 @@ const DeliveryAgents = sequelize.define("DeliveryAgents", {
     phone: {
         type: DataTypes.STRING(10),
         allowNull: false,
-        unique: 'phone_unique_constraint',
         validate: {
             is: {
                 args: /^[6-9][0-9]{9}$/,
@@ -38,7 +36,6 @@ const DeliveryAgents = sequelize.define("DeliveryAgents", {
     vehicleNumber: {
         type: DataTypes.STRING,
         allowNull: true,
-        unique: true,
     },
     profilePic: {
         type: DataTypes.STRING,
@@ -49,7 +46,6 @@ const DeliveryAgents = sequelize.define("DeliveryAgents", {
     account_number: {
         type: DataTypes.STRING(20),
         allowNull: true,
-        unique: "account_number_unique_constraint",
     },
     bank_name: {
         type: DataTypes.STRING(100),
@@ -97,7 +93,7 @@ DeliveryAgents.prototype.matchPassword = async function (enteredPassword) {
 // Generate JWT Token
 DeliveryAgents.prototype.generateToken = function() {
   return jwt.sign(
-    { id: this.id, email: this.email },
+    { id: this.id },
     process.env.JWT_SECRET_KEY,
     {
       expiresIn: process.env.JWT_MAX_EXPIRE,

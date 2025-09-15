@@ -1,7 +1,13 @@
-// Auth.tsx
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { User, Phone } from 'lucide-react';
 import styles from './Auth.module.css';
+import usePostApi from '../../api/usePostApi';
+import apiEndpoints from '../../api/Config';
+import { useUTMTracker } from '../../utils/UTM';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../../store/store';
 
 interface FormData {
   name: string;
@@ -9,12 +15,22 @@ interface FormData {
 }
 
 const Auth: React.FC = () => {
+
+  useUTMTracker();
+
   const [isSignUp, setIsSignUp] = useState<boolean>(true);
   const [formData, setFormData] = useState<FormData>({
     name: '',
     mobile: ''
   });
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const {user, isAuthenticated} = useSelector((state: RootState) => state.auth);
+
+  const {data: addData, error: addError, loading: addLoading,  setEnabled: addEnabled} = usePostApi(`${apiEndpoints.AUTH.SIGNUP}`, formData);
+
+  const {data: loginData, error: loginError, loading: loginLoading,  setEnabled: loginEnabled} = usePostApi(`${apiEndpoints.AUTH.LOGIN}`, {phone: formData.mobile});
+
+  const navigate = useNavigate();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -26,16 +42,11 @@ const Auth: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading(true);
-    
-    setTimeout(() => {
-      if (isSignUp) {
-        console.log('Sign up attempt:', formData);
-      } else {
-        console.log('Sign in attempt:', { mobile: formData.mobile });
-      }
-      setIsLoading(false);
-    }, 2000);
+    if (isSignUp) {
+    addEnabled(true);
+    console.log(formData);
+    }
+    loginEnabled(true);
   };
 
   const toggleAuthMode = () => {
@@ -51,6 +62,38 @@ const Auth: React.FC = () => {
       setFormData(prev => ({ ...prev, name: '' }));
     }
   }, [isSignUp]);
+
+  useEffect(() => {
+    if (addData) {
+      toast.success(addData?.message);
+      addEnabled(false);
+      navigate(`/verify-otp`, {state: formData});
+    }
+
+    if(addError) {
+      toast.error(addError?.message);
+      addEnabled(false);
+    }
+
+  }, [addData, addError]);
+
+  useEffect(() => {
+    if (loginData) {
+      toast.success(loginData?.message);
+      loginEnabled(false);
+      navigate(`/verify-otp`, {state: formData});
+    }
+
+    if(loginError) {
+      toast.error(loginError?.message);
+      loginEnabled(false);
+    }
+  }, [loginData, loginError])
+
+  if(isAuthenticated || user) {
+    return <Navigate to={"/"}/>
+  }
+
 
   return (
     <div className={styles.container}>
@@ -122,10 +165,10 @@ const Auth: React.FC = () => {
             {/* Submit Button */}
             <button 
               type="submit" 
-              className={`${styles.submitButton} ${isLoading ? styles.loading : ''}`}
-              disabled={isLoading}
+              className={`${styles.submitButton} ${(addLoading || loginLoading) ? styles.loading : ''}`}
+              disabled={addLoading || loginLoading}
             >
-              {isLoading ? (
+              {addLoading ? (
                 <div className={styles.spinner}></div>
               ) : (
                 isSignUp ? 'Sign Up' : 'Sign In'

@@ -8,12 +8,12 @@ const router = express.Router();
 
 router.use(authenticate);
 
-router.route("/")
-   .get(getAllAgent)
-   .post(addDeliveryAgent);
+// router.route("/")
+//    .get(getAllAgent)
+//    .post(addDeliveryAgent);
 
-router.route("/:id")
-   .get(getSingleAgent);
+// router.route("/:id")
+//    .get(getSingleAgent);
 
 
 

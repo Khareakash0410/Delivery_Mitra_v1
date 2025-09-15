@@ -1,6 +1,5 @@
 import { Order, OrderItem, Product, ProductImage, ProductOptions, Vendor } from "../models/index.js";
 import bcrypt from "bcrypt";
-import { ChnageOrderStatus } from "../utils/OrderStatus.js";
 
 export default class VendorService {
 
@@ -11,25 +10,12 @@ export default class VendorService {
                 attributes: ['id', 'email', 'password', 'phone', 'shopname', 'description', 'logo', 'location', 'account_number', 'bank_name', 'ifsc_code', 'qrCode', 'status']
             });
 
-            if(!vendor) {
-                return {status: 0, message: "Invalid email or password"}
-            }
-
-            const isPasswordMatch = await vendor.matchPassword(password);
-
-            if (!isPasswordMatch) {
-               return {status: 0, message: "Invalid email or password"} 
-            }
-
-            const token = vendor.generateToken();
+            await vendor.matchPassword(password);
 
             const vendorData = vendor.get({plain: true});
             delete vendorData.password;
 
-            return {status: 1, message: "Login successfully", data: {
-                token,
-                vendor
-            }}
+            return {status: 1, message: "Login successfully", vendor};
 
         } catch (error) {
             return {status: 0, message: "Failed to login"}

@@ -1,4 +1,4 @@
-import errorResponse from "../utils/responseUtil.js";
+import {errorResponse} from "../utils/responseUtil.js";
 
 export const error = (err, req, res, next) => {
     err.message = err.message || "Internal Server Error";

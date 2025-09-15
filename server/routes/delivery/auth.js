@@ -1,5 +1,5 @@
 import express from "express";
-import {isAuthenticated as authenticate} from "../../middleware/Authenticate.js";
+import {areAuthenticated as authenticate} from "../../middleware/Authenticate.js";
 import { getProfile, loginDeliveryPartner, updateDeliveryPartnerStatus, updatePassword, updateProfile } from "../../controllers/DeliveryAgentController.js";
 
 

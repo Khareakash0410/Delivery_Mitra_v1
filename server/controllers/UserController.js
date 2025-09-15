@@ -7,7 +7,7 @@ import { sendToken } from "../utils/sendToken.js";
 
 
 export const userRegistration = CatchAsyncError(async(req, res) => {
-   const {name, phone} = req.body;
+   const {name, mobile: phone} = req.body;
    const fieldValidate = validateFields(name, phone);
    if (fieldValidate) {
     return res.status(400).json(errorResponse(fieldValidate)); 
@@ -35,12 +35,11 @@ export const userRegistration = CatchAsyncError(async(req, res) => {
 
 export const verifyOtp = CatchAsyncError(async(req, res) => {
   const {name, phone, otp: rawOtp, utm_source, utm_medium, utm_campaign} = req.body;
+  const otp = Array.isArray(rawOtp) ? rawOtp.join("") : rawOtp;
   const fieldValidate = validateFields(name, phone, rawOtp);
   if (fieldValidate) {
    return res.status(400).json(errorResponse(fieldValidate)); 
   }
-
-  const otp = Array.isArray(rawOtp) ? rawOtp.join("") : rawOtp;
 
   try {
    const result = await UserService.verifyOtp(name, phone, otp, utm_source, utm_medium, utm_campaign, res);
@@ -71,7 +70,7 @@ export const userLogin = CatchAsyncError(async(req, res) => {
    if (!result.status) {
      return res.status(400).json(errorResponse(result.message));
    }
-   return res.status(400).json(successResponse(result.message, {}));
+   return res.status(200).json(successResponse(result.message, {}));
   } catch (err) {
      return res.status(500).json(errorResponse(err.message || 'Error in Login'));
   }
@@ -81,12 +80,11 @@ export const userLogin = CatchAsyncError(async(req, res) => {
 
 export const loginOtpVerify = CatchAsyncError(async(req, res) => {
   const { phone, otp: rawOtp, utm_source, utm_medium, utm_campaign } = req.body;
+  const otp = Array.isArray(rawOtp) ? rawOtp.join("") : rawOtp;
   const fieldValidate = validateFields(phone, otp);
   if (fieldValidate) {
    return res.status(400).json(errorResponse(fieldValidate)); 
   }
-
-  const otp = Array.isArray(rawOtp) ? rawOtp.join("") : rawOtp;
 
   try {
    const result = await UserService.verifyLoginOtp(phone, otp, utm_source, utm_medium, utm_campaign, res);
@@ -95,21 +93,21 @@ export const loginOtpVerify = CatchAsyncError(async(req, res) => {
   }
   sendToken(result.data, 200, result.message, res);
   } catch (error) {
-     return res.status(500).json(errorResponse(err.message || 'Error verifying OTP'));
+     return res.status(500).json(errorResponse(error.message || 'Error verifying OTP'));
   }
 });
 
 
 
 export const getUser = CatchAsyncError(async(req, res) => {
-  const userId = req.user.id;
+  const id = req.user.id;
   try {
-   const result = await UserService.getUserById(userId);
+   const result = await UserService.getUserById(id);
 
    if(!result) {
       return res.status(400).json(errorResponse(result.message));
    }
-   return res.status(200).json(successResponse("Profile retrieved successfully", result));
+   return res.status(200).json(successResponse("Profile retrieved successfully", {user: result?.data}));
   } catch (err) {
      return res.status(500).json(errorResponse(err.message || "Failed to fetch Profile"));
   } 
@@ -118,10 +116,10 @@ export const getUser = CatchAsyncError(async(req, res) => {
 
 
 export const updateUser = CatchAsyncError(async(req, res) => {
-  const userId = req.headers['x-user-id'];
+  const userId = req.user?.id;
   const updateData = req.body;
 
-  const allowedUpdates = ["name", "emailId", "profilePic"];
+  const allowedUpdates = ["name", "email", "profilePic"];
   const updates = Object.keys(updateData);
   const isValidOperation = updates.every(update => allowedUpdates.includes(update));
 

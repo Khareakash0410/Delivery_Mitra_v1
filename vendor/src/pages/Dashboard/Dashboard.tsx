@@ -1,5 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styles from './Dashboard.module.css';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../../store/store';
+import { Navigate } from 'react-router-dom';
 
 interface MonthlyData {
   month: string;
@@ -27,6 +30,8 @@ const Dashboard: React.FC = () => {
   const [selectedBar, setSelectedBar] = useState<number | null>(null);
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const chartRef = useRef<HTMLDivElement>(null);
+
+  const {user, isAuthenticated} = useSelector((state: RootState) => state.user);
 
   // Detect mobile screen size
   useEffect(() => {
@@ -80,11 +85,15 @@ const Dashboard: React.FC = () => {
     }
   };
 
+  if (!user || !isAuthenticated) {
+    return <Navigate to={"/login"}/>
+  }
+
   return (
     <div className={styles.container}>
 
     <div className={styles.header}>         
-      <h2 className={styles.title}>Admin &gt; Dashboard</h2>       
+      <h2 className={styles.title}>Vendor &gt; Dashboard</h2>       
     </div> 
 
       {/* Summary Cards */}

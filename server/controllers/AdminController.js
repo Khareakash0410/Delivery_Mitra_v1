@@ -214,7 +214,7 @@ export const addVendor = CatchAsyncError(async(req, res) => {
    try {
     const result = await AdminService.addVendor(email, password);
     if(!result.status) {
-      return res.status(400).json(errorResponse(result.message));
+      return res.status(400).json(errorResponse(result.error));
     }
     return res.status(200).json(successResponse("Vendor added successful"));
    } catch (error) {

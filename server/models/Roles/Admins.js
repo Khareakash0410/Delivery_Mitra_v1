@@ -11,7 +11,6 @@ const Admin = sequelize.define("Admin", {
   },
   euid: {
     type: DataTypes.STRING(255),
-    unique: true,
     allowNull: false
   },
   name: {
@@ -21,7 +20,6 @@ const Admin = sequelize.define("Admin", {
   email: {
     type: DataTypes.STRING(255),
     allowNull: false,
-    unique: true,
     validate: {
       isEmail: true
     }

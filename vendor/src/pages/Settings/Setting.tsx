@@ -1,6 +1,14 @@
-import React, { useState } from 'react';
-import { Upload, Save, X } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { Upload, Save } from 'lucide-react';
 import styles from './Setting.module.css';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../../store/store';
+import { Navigate } from 'react-router-dom';
+import useGetApi from '../../api/useGetApi';
+import apiEndpoints from '../../api/Config';
+import { toast } from 'react-toastify';
+import axios from 'axios';
+import usePutApi from '../../api/usePutApi';
 
 interface ConfigData {
   name: string;
@@ -15,9 +23,14 @@ interface PayoutData {
   accountNo: string;
   bankName: string;
   ifscCode: string;
+  qrCode: string;
 }
 
 const RestaurantConfig: React.FC = () => {
+  const {user, isAuthenticated} = useSelector((state: RootState) => state.user);
+
+  const {data, error, setEnabled} = useGetApi(apiEndpoints.AUTH.GET_ME);
+
   const [activeTab, setActiveTab] = useState<'configuration' | 'payout'>('configuration');
   const [configData, setConfigData] = useState<ConfigData>({
     name: '',
@@ -30,8 +43,12 @@ const RestaurantConfig: React.FC = () => {
   const [payoutData, setPayoutData] = useState<PayoutData>({
     accountNo: '',
     bankName: '',
-    ifscCode: ''
+    ifscCode: '',
+    qrCode: "",
   });
+
+  const {} = usePutApi(`${apiEndpoints.AUTH.UPDATE_PROFILE}`, );
+
   const [logoPreview, setLogoPreview] = useState<string>('');
 
   const handleConfigChange = (field: keyof ConfigData, value: string) => {
@@ -42,45 +59,72 @@ const RestaurantConfig: React.FC = () => {
     setPayoutData(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleLogoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setConfigData(prev => ({ ...prev, logo: file }));
-      const reader = new FileReader();
-      reader.onload = (e) => setLogoPreview(e.target?.result as string);
-      reader.readAsDataURL(file);
+  const handleLogoUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const file = event.target?.files?.[0];
+  if (!file) return;
+  setLogoPreview(URL.createObjectURL(file));
+  const formData = new FormData();
+  formData.append("image", file);
+    try {
+        const { data } = await axios.post(
+      apiEndpoints.AUTH.UPLOAD_LOGO,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        },
+        withCredentials: true,
+      }
+    );
+    setConfigData((prev) => ({
+      ...prev!,
+      logo: data?.imageUrl,
+    }));
+    } catch (error: any) {
+      toast.error(error.message);
     }
   };
 
   const handleSave = () => {
     if (activeTab === 'configuration') {
-      console.log('Saving configuration:', configData);
-      alert('Configuration saved successfully!');
+    
     } else {
-      console.log('Saving payout details:', payoutData);
-      alert('Payout details saved successfully!');
+     
     }
   };
 
-  const handleCancel = () => {
-    if (activeTab === 'configuration') {
-      setConfigData({
-        name: '',
-        location: '',
-        email: '',
-        phone: '',
-        tagline: '',
-        logo: null
-      });
-      setLogoPreview('');
-    } else {
-      setPayoutData({
-        accountNo: '',
-        bankName: '',
-        ifscCode: ''
-      });
+  useEffect(() => {
+    setEnabled(true);
+  }, []);
+
+  useEffect(() => {
+    if (data) {
+    setEnabled(false);
+    setConfigData({
+      name: data.data?.vendor?.name || '',
+      location: data.data?.vendor?.location || '',
+      email: data.data?.vendor?.email || '',
+      phone: data.data?.vendor?.phone || '',
+      tagline: data.data?.vendor?.tagline || '',
+      logo: data.data?.vendor?.logo || null,
+    });
+
+    setPayoutData({
+      accountNo: data.data?.vendor?.accountNo || '',
+      bankName: data.data?.vendor?.bankName || '',
+      ifscCode: data.data?.vendor?.ifscCode || '',
+      qrCode: data.data?.vendor?.qrCode || "",
+    });
     }
-  };
+    if (error) {
+      toast.error(error.message);
+      setEnabled(false);
+    }
+  }, [data, error]);
+
+  if (!user || !isAuthenticated) {
+    return <Navigate to={"/login"}/>
+  }
 
   return (
     <div className={styles.container}>
@@ -198,14 +242,6 @@ const RestaurantConfig: React.FC = () => {
             <div className={styles.buttonGroup}>
               <button
                 type="button"
-                className={`${styles.button} ${styles.cancelButton}`}
-                onClick={handleCancel}
-              >
-                <X size={16} />
-                Cancel
-              </button>
-              <button
-                type="button"
                 className={`${styles.button} ${styles.saveButton}`}
                 onClick={handleSave}
               >
@@ -257,14 +293,6 @@ const RestaurantConfig: React.FC = () => {
             </div>
 
             <div className={styles.buttonGroup}>
-              <button
-                type="button"
-                className={`${styles.button} ${styles.cancelButton}`}
-                onClick={handleCancel}
-              >
-                <X size={16} />
-                Cancel
-              </button>
               <button
                 type="button"
                 className={`${styles.button} ${styles.saveButton}`}

@@ -179,7 +179,7 @@ export default class AdminService {
         }
         return {status: 1, message: "Vendor added successful"}  
         } catch (error) {
-            return {status: 0, message: "Add admin failed"}
+            return {status: 0, message: "Add admin failed", error}
         }
     }
     

@@ -13,7 +13,6 @@ import OrderConfirmation from "./pages/OrderConfirmation/OrderConfirmation";
 import UserAccount from "./pages/AccountPage/Account";
 import AccountInfo from "./components/AccountInfo/AccountInfo";
 import OrderHistory from "./components/AccountInfo/OrderHistory";
-import WishlistProduct from "./components/AccountInfo/WishlistProduct";
 
 
 function App() {
@@ -60,11 +59,9 @@ function App() {
 
          <Route path="user/account" element={<UserAccount />}/>
 
-         <Route path="user/account/update" element={<AccountInfo />}/>
+         <Route path="user/account/profile" element={<AccountInfo />}/>
 
          <Route path="user/account/orders" element={<OrderHistory />}/>
-
-         <Route path="user/account/wishlist" element={<WishlistProduct />}/>
 
        </Route>
 

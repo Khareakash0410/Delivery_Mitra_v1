@@ -5,7 +5,10 @@ import React, { useEffect, useState } from "react"
 interface ApiResponse {
     data: any;
     message: string;
-    student?: any
+    vendor?: any;
+    orders?: any;
+    token?: string;
+    user: any;
 }
 
 interface ApiError {

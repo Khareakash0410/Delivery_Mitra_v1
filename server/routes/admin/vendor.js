@@ -9,7 +9,7 @@ const router = express.Router();
 
 
 
-router.use(authenticate);
+// router.use(authenticate);
 
 router.route("/")
    .get(getAllVendor)
@@ -18,9 +18,6 @@ router.route("/")
 
 router.route("/:id")
    .get(getSingleVendor);
-
-
-
 
 
 

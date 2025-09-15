@@ -12,21 +12,19 @@ const Vendor = sequelize.define("Vendors", {
         autoIncrement: true,
     },
     email: {
-        type: DataTypes.STRING(100),
-        allowNull: false,
-        unique: true,
-        validate: {
-        isEmail: true
-        }
+        type: DataTypes.STRING(25),
+    allowNull: false,
+    validate: {
+      isEmail: true
+    }
     },
     password: {
-        type: DataTypes.STRING(50),
+        type: DataTypes.STRING(255),
         allowNull: false,
     },
     phone: {
         type: DataTypes.STRING(10),
         allowNull: true,
-        unique: true,
         validate: {
             is: {
                 args: /^[6-9][0-9]{9}$/,
@@ -54,7 +52,6 @@ const Vendor = sequelize.define("Vendors", {
     },
     logo: {
         type: DataTypes.STRING,
-        defaultValue: "https://www.citypng.com/public/uploads/preview/hd-man-user-illustration-icon-transparent-png-701751694974843ybexneueic.png?v=2024122217"
     },
 
     //Bank
@@ -73,7 +70,6 @@ const Vendor = sequelize.define("Vendors", {
     },
     qrCode: {
         type: DataTypes.STRING,
-        defaultValue: "https://www.citypng.com/public/uploads/preview/hd-man-user-illustration-icon-transparent-png-701751694974843ybexneueic.png?v=2024122217"
     },
 
     //Status

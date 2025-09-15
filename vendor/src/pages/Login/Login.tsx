@@ -1,6 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Mail, Lock } from 'lucide-react';
 import styles from './Login.module.css';
+import usePostApi from '../../api/usePostApi';
+import apiEndpoints from '../../api/Config';
+import { useDispatch, useSelector } from 'react-redux';
+import type { RootState } from '../../store/store';
+import { Navigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { loginSuccess } from '../../store/slices/UserSlice';
 
 interface FormData {
   email: string;
@@ -8,11 +15,17 @@ interface FormData {
 }
 
 const Auth: React.FC = () => {
+
+  const {user, isAuthenticated} = useSelector((state: RootState) => state.user);
+
   const [formData, setFormData] = useState<FormData>({
     email: '',
     password: ''
   });
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const dispatch = useDispatch();
+
+  const {data, error, loading, setEnabled} = usePostApi(apiEndpoints.AUTH.LOGIN, formData);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -24,9 +37,30 @@ const Auth: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading((prev) => !prev)
+    setEnabled(true);
   };
 
+  console.log(data)
+
+  useEffect(() => {
+   if (data) {
+    toast.success(data?.message);
+    setEnabled(false);
+    dispatch(loginSuccess({vendor: data?.user, token: data?.token}));
+   }
+
+   if (error) {
+    toast.error(error?.message);
+    setEnabled(false);
+   }
+  }, [data, error]);
+
+  if (user || isAuthenticated) {
+    return <Navigate to={"/"}/>
+  }
+
+
+  
   return (
     <div className={styles.container}>
       {/* Background Image */}
@@ -91,10 +125,10 @@ const Auth: React.FC = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className={`${styles.submitButton} ${isLoading ? styles.loading : ''}`}
-              disabled={isLoading}
+              className={`${styles.submitButton} ${loading ? styles.loading : ''}`}
+              disabled={loading}
             >
-              {isLoading ? (
+              {loading ? (
                 <div className={styles.spinner}></div>
               ) : (
                 'Sign In'

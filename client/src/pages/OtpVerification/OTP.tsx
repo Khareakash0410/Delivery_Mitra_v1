@@ -2,111 +2,91 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ArrowLeft, RotateCcw } from 'lucide-react';
 import styles from './OTP.module.css';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import type { RootState } from '../../store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import usePostApi from '../../api/usePostApi';
+import apiEndpoints from '../../api/Config';
+import { toast } from 'sonner';
+import { veirfyLoginOtpSuccess, verifyOtpSuccess } from '../../store/slices/authSlice';
 
-interface OTPVerificationProps {
-  phoneNumber?: string;
-  onVerify?: (otp: string) => void;
-}
 
-const OTPVerify: React.FC<OTPVerificationProps> = ({
-  phoneNumber = "+91 98765 43210",
-  onVerify
-}) => {
-  const [otp, setOtp] = useState<string[]>(Array(6).fill(''));
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isResending, setIsResending] = useState<boolean>(false);
-  const [timer, setTimer] = useState<number>(60);
-  const [canResend, setCanResend] = useState<boolean>(false);
-  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+
+const OTPVerify = () => {
+
+  const {user, isAuthenticated} = useSelector((state: RootState) => state.auth);
+  const location = useLocation();
+  const formData = location.state;
   const navigate = useNavigate();
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
-  useEffect(() => {
-    let interval: number;
-    if (timer > 0 && !canResend) {
-      interval = setInterval(() => {
-        setTimer(prev => prev - 1);
-      }, 1000);
-    } else if (timer === 0) {
-      setCanResend(true);
-    }
-    return () => clearInterval(interval);
-  }, [timer, canResend]);
+  const dispatch = useDispatch();
+
+  const [otpData, setOtpData] = useState({
+  otp: ['', '', '', '', '', ''],
+  phone: formData?.mobile,
+  name: formData?.name,
+  utm_source: localStorage.getItem('utm_source'),
+  utm_medium: localStorage.getItem('utm_medium'),
+  utm_campaign: localStorage.getItem('utm_campaign'),
+  });
+
+  const {data: addData, error: addError, loading: addLoading,  setEnabled: addEnabled} = usePostApi(`${apiEndpoints.AUTH.VERIFY_OTP}`, otpData);
+
+  const {data: loginData, error: loginError, loading: loginLoading,  setEnabled: loginEnabled} = usePostApi(`${apiEndpoints.AUTH.LOGIN_VERIFY_OTP}`, otpData);
+
 
   const handleInputChange = (index: number, value: string) => {
-    // Only allow digits
-    if (!/^\d*$/.test(value)) return;
-
-    const newOtp = [...otp];
-    
-    if (value.length <= 1) {
-      newOtp[index] = value;
-      setOtp(newOtp);
-
-      // Auto-focus next input
-      if (value && index < 5) {
-        inputRefs.current[index + 1]?.focus();
-      }
-    } else if (value.length > 1) {
-      // Handle paste
-      const digits = value.slice(0, 6 - index).split('');
-      for (let i = 0; i < digits.length && index + i < 6; i++) {
-        newOtp[index + i] = digits[i];
-      }
-      setOtp(newOtp);
-      
-      // Focus the next empty input or last input
-      const nextIndex = Math.min(index + digits.length, 5);
-      inputRefs.current[nextIndex]?.focus();
-    }
-  };
-
-  const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Backspace') {
-      if (!otp[index] && index > 0) {
-        // Move to previous input if current is empty
-        inputRefs.current[index - 1]?.focus();
-      } else {
-        // Clear current input
-        const newOtp = [...otp];
-        newOtp[index] = '';
-        setOtp(newOtp);
-      }
-    } else if (e.key === 'ArrowLeft' && index > 0) {
-      inputRefs.current[index - 1]?.focus();
-    } else if (e.key === 'ArrowRight' && index < 5) {
+    if (value.length > 1) return;
+    if (value && !/^\d$/.test(value)) return;
+    const newOtp = [...otpData.otp];
+    newOtp[index] = value;
+    setOtpData(prev => ({
+      ...prev,
+      otp: newOtp
+    }));
+    if (value && index < 5) {
       inputRefs.current[index + 1]?.focus();
     }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const otpString = otp.join('');
-    
-    if (otpString.length !== 6) {
-      // Focus first empty input
-      const firstEmptyIndex = otp.findIndex(digit => !digit);
-      if (firstEmptyIndex !== -1) {
-        inputRefs.current[firstEmptyIndex]?.focus();
-      }
-      return;
+    if (otpData.name) {
+      addEnabled(true);
     }
-
-    setIsLoading(true);
-    
-    // Simulate API call
-    setTimeout(() => {
-      console.log('OTP verification:', otpString);
-      onVerify?.(otpString);
-      setIsLoading(false);
-    }, 2000);
+      loginEnabled(true);
   };
 
-  const handleResend = async () => {
-    setIsResending(true);
-  };
+  useEffect(() => {
+    if (addData) {
+      toast.success(addData?.message);
+      addEnabled(false);
+      dispatch(verifyOtpSuccess({user: addData?.user, token: addData?.token}));
+    }
+    if(addError) {
+      toast.error(addError?.message);
+      addEnabled(false);
+    }
+  }, [addData, addError]);
+  
+  useEffect(() => {
+    if (loginData) {
+      toast.success(loginData?.message);
+      loginEnabled(false);
+      dispatch(veirfyLoginOtpSuccess({user: loginData?.user, token: loginData?.token}));
+    }
+    if(loginError) {
+      toast.error(loginError?.message);
+      loginEnabled(false);
+    }
+  }, [loginData, loginError]);
 
-  const isOtpComplete = otp.every(digit => digit !== '');
+  console.log(loginData)
+
+  if(isAuthenticated || user) {
+    return <Navigate to={"/"}/>
+  };
 
   return (
     <div className={styles.container}>
@@ -120,7 +100,7 @@ const OTPVerify: React.FC<OTPVerificationProps> = ({
           <button 
             type="button" 
             className={styles.backButton}
-            onClick={() => navigate("/signup")}
+            onClick={() => navigate("/auth")}
             aria-label="Go back"
           >
             <ArrowLeft size={20} />
@@ -132,23 +112,22 @@ const OTPVerify: React.FC<OTPVerificationProps> = ({
             <p className={styles.subtitle}>
               We've sent a 6-digit verification code to
             </p>
-            <p className={styles.phoneNumber}>{phoneNumber}</p>
+            <p className={styles.phoneNumber}>{formData?.mobile}</p>
           </div>
 
           <form onSubmit={handleSubmit} className={styles.form}>
             {/* OTP Input Fields */}
             <div className={styles.otpContainer}>
               <div className={styles.otpInputs}>
-                {otp.map((digit, index) => (
+                {otpData.otp.map((digit, index) => (
                   <input
                     key={index}
-                    ref={el => inputRefs.current[index] = el}
+                    ref={el => {inputRefs.current[index] = el}}
                     type="text"
                     inputMode="numeric"
                     maxLength={6}
                     value={digit}
                     onChange={e => handleInputChange(index, e.target.value)}
-                    onKeyDown={e => handleKeyDown(index, e)}
                     className={`${styles.otpInput} ${digit ? styles.filled : ''}`}
                     autoComplete="one-time-code"
                     autoFocus={index === 0}
@@ -160,10 +139,10 @@ const OTPVerify: React.FC<OTPVerificationProps> = ({
             {/* Verify Button */}
             <button 
               type="submit" 
-              className={`${styles.verifyButton} ${!isOtpComplete ? styles.disabled : ''} ${isLoading ? styles.loading : ''}`}
-              disabled={!isOtpComplete || isLoading}
+              className={`${styles.verifyButton} ${(addLoading || loginLoading) ? styles.disabled : ''} ${(addLoading || loginLoading) ? styles.loading : ''}`}
+              disabled={addLoading || loginLoading}
             >
-              {isLoading ? (
+              { addLoading ? (
                 <div className={styles.spinner}></div>
               ) : (
                 'Verify & Sign In'
@@ -173,30 +152,26 @@ const OTPVerify: React.FC<OTPVerificationProps> = ({
 
           {/* Resend Section */}
           <div className={styles.resendSection}>
-            {!canResend ? (
-              <p className={styles.timerText}>
-                Resend OTP in <span className={styles.timer}>00:{timer.toString().padStart(2, '0')}</span>
-              </p>
-            ) : (
               <button 
                 type="button"
-                className={`${styles.resendButton} ${isResending ? styles.resending : ''}`}
-                onClick={handleResend}
-                disabled={isResending}
+                className={`${styles.resendButton} 
+                 `
+              }
+                // onClick={""}
+                // disabled={isResending}
               >
-                {isResending ? (
-                  <>
+                {/* {isResending ? ( */}
+                  {/* <>
                     <div className={styles.resendSpinner}></div>
                     <span>Sending...</span>
-                  </>
-                ) : (
+                  </> */}
+                {/* ) : ( */}
                   <>
                     <RotateCcw size={16} />
                     <span>Resend OTP</span>
                   </>
-                )}
+                {/* )} */}
               </button>
-            )}
           </div>
 
           {/* Help Text */}

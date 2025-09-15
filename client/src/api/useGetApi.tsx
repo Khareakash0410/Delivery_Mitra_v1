@@ -1,19 +1,16 @@
 import axios, { AxiosError, type AxiosResponse } from "axios";
-import { useEffect, useState } from "react"
-
+import { useEffect, useState } from "react";
 
 
 interface ApiResponse {
   message: string;
   data: any;
-  vendor: any;
-  order: any
+  user: any;
 }
 
 interface ApiError {
     message: string;
 }
-
 
 interface ApiResult {
     data: ApiResponse | null;
@@ -22,7 +19,7 @@ interface ApiResult {
     setEnabled: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
- const token = localStorage.getItem("token");
+const token = localStorage.getItem("token");
 
 
 const useGetApi = (url: string): ApiResult => {
@@ -32,13 +29,14 @@ const useGetApi = (url: string): ApiResult => {
  const [error, setError] = useState<ApiError | null>(null);
  const [enabled, setEnabled] = useState<boolean>(false);
 
-
  useEffect(() => {
-   if (enabled) {
-   const fetchData = async () => {
+     if (enabled) {
+     const fetchData = async () => {
      setLoading(true);
      try {
-       const response: AxiosResponse<ApiResponse> = await axios.get(url, {withCredentials: true, headers: {
+       const response: AxiosResponse<ApiResponse> = await axios.get(url, {
+        withCredentials: true, 
+        headers: {
         Authorization: `Bearer ${token}`,
        }});
         setData(response.data);
@@ -53,12 +51,10 @@ const useGetApi = (url: string): ApiResult => {
 
    setEnabled(false)
    }
-
-
  }, [url, enabled]);
 
-  return {data, loading, error, setEnabled};
+ return {data, loading, error, setEnabled};
+};
 
-}
 
-export default useGetApi
+export default useGetApi;

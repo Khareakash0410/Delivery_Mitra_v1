@@ -1,48 +1,83 @@
-import { 
-  User, 
-  ShoppingBag, 
-  Heart, 
-  LogOut,
-  Edit,
-  ChevronRight
-} from 'lucide-react';
+import { User, ShoppingBag, LogOut, ChevronRight } from 'lucide-react';
 import styles from './Account.module.css';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import type { RootState } from '../../store/store';
+import dayjs from "dayjs";
+import useGetApi from '../../api/useGetApi';
+import apiEndpoints from '../../api/Config';
+import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
+import { logoutSuccess } from '../../store/slices/authSlice';
 
 
-const UserAccount = ({ userData }: any) => {
+interface UserProfile {
+  name: string;
+  email: string;
+  phone: string;
+  profilePic?: string;
+}
 
-  const defaultUserData = {
-    name: 'Jane Smith',
-    email: 'jane.smith@email.com',
-    phone: '+1 (415) 555-1234',
-    joinDate: 'Member since May 2022'
-  };
 
-  const user = userData || defaultUserData;
+const UserAccount = () => {
+
+  const [user, setUser] = useState<UserProfile | null>(null);
+  const {user: storeUser, isAuthenticated} = useSelector((state: RootState) => state.auth);
+
+  const { data, error, setEnabled } = useGetApi(
+    `${apiEndpoints.AUTH.GET_MY_PROFILE}`,
+  );
+
+  const {data: logoutData, error: logoutError, setEnabled: logoutEnabled} = useGetApi(`${apiEndpoints.AUTH.LOGOUT}`);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const menuItems = [
     {
       id: 'profile',
       icon: User,
       title: 'Profile Details',
-      navigate: "/user/account/update"
+      navigate: "/user/account/profile"
     },
     {
       id: 'orders',
       icon: ShoppingBag,
       title: 'Order History',
       navigate: "/user/account/orders"
-    },
-    {
-      id: 'wishlist',
-      icon: Heart,
-      title: 'Saved Wishlist',
-      navigate: "/user/account/wishlist"
     }
   ];
+
+    useEffect(() => {
+      setEnabled(true);
+    }, []);
+  
+    useEffect(() => {
+      if (data) {
+        setUser(data?.data?.user);
+        setEnabled(false);
+      }
+      if (error) {
+        setEnabled(false);
+      }
+    }, [data, error]);
+
+    useEffect(() => {
+      if(logoutData) {
+        toast.success(logoutData?.message);
+        logoutEnabled(false);
+        dispatch(logoutSuccess());
+      }
+
+      if(logoutError) {
+        toast.error(logoutError?.message);
+        logoutEnabled(false);
+      }
+    }, [logoutData, logoutError]);
+
+  if(!storeUser || !isAuthenticated) {
+    return <Navigate to={"/auth"}/>
+  };
 
   return (
     <div className={styles.container}>
@@ -54,15 +89,10 @@ const UserAccount = ({ userData }: any) => {
       {/* User Profile Section */}
       <div className={styles.userSection}>
         <div className={styles.userInfo}>
-          <div className={styles.userAvatar}>
-            <User className={styles.avatarIcon} />
-            <div className={styles.editBadge}>
-              <Edit className={styles.editBadgeIcon} />
-            </div>
-          </div>
+          <img alt={user?.name} src={user?.profilePic} className={styles.userAvatar} />
           <div className={styles.userDetails}>
-            <h2 className={styles.userName}>{user.name}</h2>
-            <p className={styles.userMeta}>{user.joinDate}</p>
+            <h2 className={styles.userName}>{user?.name}</h2>
+            <p className={styles.userMeta}>Account Since - {dayjs(user?.createdAt).format("DD MMM YYYY")}</p>
           </div>
         </div>
       </div>
@@ -92,16 +122,17 @@ const UserAccount = ({ userData }: any) => {
         <div className={styles.menuItem}>
           <button
             className={`${styles.menuButton} ${styles.logoutButton}`}
-            // onClick={handleLogout}
+            onClick={() => logoutEnabled(true)}
           >
             <div className={styles.menuButtonLeft}>
               <LogOut className={styles.menuIcon} />
-              <span className={styles.menuTitle}>Logout Option</span>
+              <span className={styles.menuTitle}>Logout</span>
             </div>
           </button>
         </div>
 
       </div>
+
     </div>
   );
 };

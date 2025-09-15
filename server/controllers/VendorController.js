@@ -2,6 +2,7 @@ import { CatchAsyncError } from "../middleware/CatchAsyncError.js";
 import VendorService from "../services/VendorService.js";
 import { validateFields } from "../utils/fieldsRequired.js";
 import { errorResponse, successResponse } from "../utils/responseUtil.js";
+import { sendCookie } from "../utils/sendToken.js";
 
 
 
@@ -15,24 +16,12 @@ export const loginVendor = CatchAsyncError(async(req, res) => {
     if (fieldValidate) {
      return res.status(400).json(errorResponse(fieldValidate)); 
     }
-
     try {
-        const result = await VendorService.loginVendor(email, password);
-
-        if(!result.status || !result.data.token) {
+        const result = await VendorService.login(email, password);
+        if(!result.status) {
          return res.status(401).json(errorResponse(result.message));
         }
-           
-        res.cookie("token", result.data?.token, {
-            httpOnly: true,
-            secure: true,
-            sameSite: "None",
-            maxAge: 7 * 24 * 60 * 60 * 1000
-        });
-
-        return res.status(200).json(successResponse("Login successful", 
-           { vendor: result.data.vendor}
-        ));
+        sendCookie(result.vendor, 200, result.message, res);      
     } catch (error) {
         res.status(500).json(errorResponse(error.message || "Internal Server Error"));  
     } 

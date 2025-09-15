@@ -20,38 +20,31 @@ const config : Config = {
 
 export const ENDPOINTS = {
     AUTH: {
-        LOGIN: 'student/admin-login',
-        OTP_VERIFY_LOGIN: 'auth/verify-login-otp',
-        LOGOUT: 'auth/logout',
-        GET_ME: 'auth/getMe',
+        LOGIN: 'vendor/auth/login',
+        LOGOUT: 'logout',
+        GET_ME: 'vendor/auth',
+        UPDATE_PROFILE: "vendor/auth",
+        UPDATE_PASSWORD: "vendor/auth/password",
+        STORE_STATUS: "vendor/auth/store-status",
+        UPLOAD_LOGO: "upload"
     },
-    STUDENT: {
-        GET_ALL: 'student/all',
-        DELETE:  `student/delete`,
-        UPDATE:  `student/update`,
+    PRODUCT: {
+        GET_ALL: 'vendor/product',
+        ADD: "vendor/product",
+        GET_SINGLE:  "vendor/product/:id",
+        UPDATE:  "vendor/product/:id",
+        DELETE:  "vendor/product/:id",
     },
-    COURSE: {
-        ADD: 'course/add-course',
-        GET_ALL: 'course/getAll-course',
-        DELETE:  `course/delete-course`,
-        UPDATE:  `course/edit-course`,
+    ORDER: {
+        GET_ALL: 'vendor/order',
+        GET_SINGLE: "vendor/order/:id",
+        UPDATE:  `vendor/order/:id`,
+        DISPATCH: "vendor/order/dispatchOrder"
     },
-    SUBJECT: {
-        ADD: 'subject/add-subject',
-        GET_ALL: 'subject/getAll-subject',
-        DELETE:  `subject/delete-subject`,
+    PAYMENT: {
+        GET_DAILY: 'vendor/payment',
+        GET_PAYMENT_DAY: 'vendor/payment/allPaymentsInDay'
     },
-    QUESTION: {
-        ADD: 'question/add-quiz',
-        GET_ALL: 'question/get-all',
-        DELETE:  `question/delete`,
-    },
-    COLLEGE: {
-        ADD: 'college/add-college',
-        GET_ALL: 'college/get-all-college',
-        DELETE:  `college/delete-college`,
-        UPDATE:  `college/edit-college`,
-    }
 }
 
 const createApiEndpoints = <T extends Record<string, Record<string, string>>>(

@@ -1,6 +1,6 @@
 import express from "express";
-import { getVendorProfile, loginVendor, logoutVendor, updateStoreStatus, updateVendorProfile } from "../../controllers/VendorController.js";
-import {isAuthenticated as authenticate} from "../../middleware/Authenticate.js";
+import { getVendorProfile, loginVendor, updateStoreStatus, updateVendorPassword, updateVendorProfile } from "../../controllers/VendorController.js";
+import {areAuthenticated as authenticate} from "../../middleware/Authenticate.js";
 
 
 

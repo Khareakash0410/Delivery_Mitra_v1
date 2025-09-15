@@ -2,9 +2,9 @@ import "./config/config.js";
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import expressFileUpload from "express-fileupload"
-import {v2 as cloudinary} from "cloudinary";
 import {sequelize} from "./models/index.js";
+import apiRouter from "./routes/index.js";
+import { error } from "./middleware/Error.js";
 
 
 const app = express();
@@ -27,22 +27,12 @@ app.use(express.json());
 
 app.use(express.urlencoded({extended: true}));
 
-app.use(expressFileUpload({
-    useTempFiles: true,
-    tempFileDir: "/tmp/",
-}));
-
-cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLIENT_NAME,
-    api_key: process.env.CLOUDINARY_CLIENT_API,
-    api_secret: process.env.CLOUDINARY_CLIENT_SECRET,
-});
-
 app.get("/", (req, res) => {
     res.send("Server is Healthy!");
 });
 
-
+app.use(error);
+app.use(apiRouter);
 
 app.listen(process.env.PORT, () => {
     console.log(`Server is running on PORT ${process.env.PORT}`);

@@ -2,16 +2,15 @@ import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 
 
-
 interface ApiResponse {
     data: any;
-    vendor: any;
     message: string;
 }
 
 interface ApiError {
     message: string;
 }
+
 
 interface ApiResult {
     data: ApiResponse | null;
@@ -20,12 +19,12 @@ interface ApiResult {
     setEnabled: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+const token = localStorage.getItem("token");
 
 
 const usePutApi = (
   url: string, 
-  payload: any,
-  id: string | number | null): ApiResult => {
+  payload: any): ApiResult => {
     
   const [data, setData] = useState<ApiResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -37,9 +36,11 @@ const usePutApi = (
     const fetchData = async () => {
         setLoading(true);
         try {
-            const response = await axios.put(`${url}/${id}`, payload, {
+            const response = await axios.put(url, payload, {
                 withCredentials: true,
-                
+                headers: {
+        Authorization: `Bearer ${token}`,
+       }
             });
             setData(response.data);
         } catch (error) {

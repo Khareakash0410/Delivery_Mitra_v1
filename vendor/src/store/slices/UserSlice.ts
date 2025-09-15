@@ -7,9 +7,8 @@ const initialAuthenticate = localStorage.getItem('Authenticate') === "true";
 
 interface Admin {
   id: string;
-  name?: string;
-  phone?: string;
-  role: string;
+  email?: string;
+  profilePic: string;
 }
 
 interface AuthState {
@@ -27,11 +26,12 @@ const userSlice = createSlice({
   initialState,
   reducers: {
 
-    otpVerifyLoginSuccess(state, action) {
+    loginSuccess(state, action:any) {
       state.isAuthenticated = true;
-      state.user = action.payload || null;
-      localStorage.setItem("user", JSON.stringify(action.payload));
+      state.user = action.payload?.vendor || null;
+      localStorage.setItem("user", JSON.stringify(action.payload?.vendor));
       localStorage.setItem("Authenticate", JSON.stringify(true));
+      localStorage.setItem("token", action.payload?.token);
     },
 
     logoutSuccess(state) {
@@ -39,10 +39,11 @@ const userSlice = createSlice({
       state.user = null;
       localStorage.removeItem("user");
       localStorage.removeItem("Authenticate");
+      localStorage.removeItem("token");
     },
   },
 });
 
-export const  {otpVerifyLoginSuccess, logoutSuccess} = userSlice.actions;
+export const  {loginSuccess, logoutSuccess} = userSlice.actions;
 
 export default userSlice.reducer;

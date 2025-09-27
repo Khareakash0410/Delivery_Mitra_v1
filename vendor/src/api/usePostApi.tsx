@@ -22,6 +22,8 @@ interface ApiResult {
     setEnabled: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+const token = localStorage.getItem("token");
+
 const usePostApi = (url: string, payload: any) : ApiResult => {
 
  const [data, setData] = useState<ApiResponse | null>(null);
@@ -37,6 +39,9 @@ const usePostApi = (url: string, payload: any) : ApiResult => {
         try {
             const response: AxiosResponse<ApiResponse> = await axios.post(url, payload, {
                 withCredentials: true,
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
             });
             setData(response.data);
         } catch (error: unknown) {

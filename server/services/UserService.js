@@ -1,5 +1,5 @@
 import { Op } from "sequelize";
-import { Address, User, OTP, Order, OrderItem, Product, ProductImage, ProductOptions } from "../models/index.js";
+import { Address, User, OTP, Order, OrderItem, Product, ProductImage } from "../models/index.js";
 export default class UserService {
 
     static async getUserByPhone (phone) {

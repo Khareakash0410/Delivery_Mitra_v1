@@ -9,6 +9,7 @@ interface Admin {
   id: string;
   email?: string;
   profilePic: string;
+  status: string;
 }
 
 interface AuthState {

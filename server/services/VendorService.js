@@ -1,4 +1,4 @@
-import { Order, OrderItem, Product, ProductImage, ProductOptions, Vendor } from "../models/index.js";
+import { Order, OrderItem, Product, ProductImage, Vendor } from "../models/index.js";
 import bcrypt from "bcrypt";
 
 export default class VendorService {
@@ -78,19 +78,19 @@ export default class VendorService {
 
             await vendor.save();
 
-            return {status: 1, message: "Password upadated successful"}
+            return {status: 1, message: "Password updated successful"}
         } catch (error) {
             return {status: 0, message: "Password update failed"}
         }
     }
 
-    static async updateStoreStatus(vendorId) {
+    static async updateStoreStatus(vendorId, status) {
         try {
            const vendor = await Vendor.findByPk(vendorId);
            if(!vendor) {
             return {status: 0, message: "Vendor not found"}
            }
-           vendor.status = statusValue;
+           vendor.status = status;
            await vendor.save();
            return {status: 1, message: "Store Status Updated", data: vendor.get({plain: true})}
         } catch (error) {
@@ -98,10 +98,10 @@ export default class VendorService {
         }
     }
 
-    static async addProduct(vendorId, name, category, description, price, platformFeesPerUnit, stocks, options, images) {
+    static async addProduct(vendorId, name, category, description, price, platformFeesPerUnit, stocks, variant, images) {
         try {
             const exisitngProduct = await Product.findOne({
-                where: {name, vendorId}
+                where: {name, variant, vendorId}
             });
 
             if(exisitngProduct) {
@@ -109,20 +109,12 @@ export default class VendorService {
             }
         
             const product = await Product.create({
-                name, category, description, price, platformFeesPerUnit, stocks, vendorId
+                name, category, description, variant, price, platformFeesPerUnit, stocks, vendorId
             });
 
             if (images && images.length > 0) {
                 await ProductImage.bulkCreate(images.map(img => ({
                     imageUrl: img,
-                    productId: product.id
-                })));
-            }
-
-            if (options && options.length > 0) {
-                await ProductOptions.bulkCreate(options.map(opt => ({
-                    optionName: opt.optionName,
-                    optionPrice: opt.optionPrice,
                     productId: product.id
                 })));
             }
@@ -168,7 +160,6 @@ export default class VendorService {
             const product = await Product.findByPk(id, {
                include: [
                  { model: ProductImage, as: "images" },
-                 { model: ProductOptions, as: "options" },
                ]
             });
 
@@ -196,14 +187,6 @@ export default class VendorService {
               await ProductImage.bulkCreate(images.map(img => ({ imageUrl: img, productId: product.id })));
             }
 
-            if(updateData.options) {
-              await ProductOptions.bulkCreate(options.map(opt => ({
-        optionName: opt.optionName,
-        optionPrice: opt.optionPrice,
-        productId: product.id
-      })));
-            }
-
             return {sttaus: 1, message: "Product update successful", data: product.get({plain : true})};
         } catch (error) {
             return {status: 0, message: "failed to update product"};
@@ -217,7 +200,6 @@ export default class VendorService {
             return {sttaus: 0, message: "Product already deleted"}
            } 
            await ProductImage.destroy({ where: { productId: product.id } });
-           await ProductOptions.destroy({ where: { productId: product.id } });
            await product.destroy();
            return {status: 1, message: "Product deleted successful"}
 

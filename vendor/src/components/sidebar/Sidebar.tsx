@@ -2,6 +2,13 @@ import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { Banknote, LayoutDashboard, Package, PlusCircle, Settings, ShoppingCart } from 'lucide-react';
 import styles from './sidebar.module.css';
 import { FaSignOutAlt } from 'react-icons/fa';
+import useGetApi from '../../api/useGetApi';
+import apiEndpoints from '../../api/Config';
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { logoutSuccess } from '../../store/slices/UserSlice';
+import usePutApi from '../../api/usePutApi';
 
 interface AdminSidebarProps {
   toggleSidebar: () => void;
@@ -9,24 +16,100 @@ interface AdminSidebarProps {
 
 const Sidebar: React.FC<AdminSidebarProps> = ({ toggleSidebar }) => {
 
+  const {data: getData, error: getError, setEnabled: getEnabled} = useGetApi(apiEndpoints.AUTH.GET_ME);
+
+  const [status, setStatus] = useState("");
+  const {data, error, setEnabled} = useGetApi(apiEndpoints.AUTH.LOGOUT);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const {data: statusData, error: statusError, setEnabled: statusEnabled} = usePutApi(`${apiEndpoints.AUTH.STORE_STATUS}`, {status});
 
   const handleLogout = (): void => {
+    setEnabled(true);
     toggleSidebar();
-    navigate("/login");
   };
+
+  const handleToggleChange = (): void => {
+    if (status === "Online") {
+      setStatus("Offline");
+    }
+    else {
+      setStatus("Online");
+    }
+
+    statusEnabled(true);
+  };
+
+  useEffect(() => {
+    getEnabled(true);
+  }, [statusData]);
+
+  useEffect(() => {
+    if (getData) {
+      setStatus(getData.data?.vendor?.status);
+    }
+    if (getError) {
+      toast.error(getError?.message);
+    }
+  }, [getData, getEnabled]);
+
+  useEffect(() => {
+    if(data) {
+      toast.success(data?.message);
+      navigate("/login");
+      dispatch(logoutSuccess());
+      setEnabled(false);
+    }
+    if(error) {
+      toast.error(error?.message);
+      setEnabled(false);
+    }
+   }, [data, error]);
+
+   useEffect(() => {
+     if (statusData) {
+      toast.success(statusData?.message);
+      statusEnabled(false);
+      setStatus(statusData?.vendor?.status);
+     }
+     if (statusError) {
+      toast.error(statusError?.message);
+      statusEnabled(false);
+     }
+   }, [statusData, statusError]);
+
+
 
   return (
     <div className={styles.container}>
-
+      
       <div className={styles.header}>
         <Link to="/" onClick={toggleSidebar} className={styles.logo}>
             <img src="./Logo.png" alt="Delivery Mitra" className={styles.logoImage}/>
         </Link>
       </div>
 
-      <nav className={styles.nav}>
+      {/* Toggle Section */}
+      <div className={styles.toggleSection}>
+        <div className={styles.toggleContainer}>
+          <span className={styles.toggleLabel}>
+            {status}
+          </span>
+          <label className={styles.toggleSwitch}>
+            <input
+              type="checkbox"
+              checked={status === "Online"}
+              onChange={handleToggleChange}
+              className={styles.toggleInput}
+            />
+            <span className={styles.toggleSlider}></span>
+          </label>
+        </div>
+      </div>
 
+      <nav className={styles.nav}>
+        
         <NavLink
           to="/"
           onClick={toggleSidebar}
@@ -101,7 +184,7 @@ const Sidebar: React.FC<AdminSidebarProps> = ({ toggleSidebar }) => {
           <span>Logout</span>
         </button>
       </div>
-
+     
     </div>
   );
 };

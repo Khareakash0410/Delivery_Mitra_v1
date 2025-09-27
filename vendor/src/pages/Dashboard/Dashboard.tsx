@@ -78,13 +78,6 @@ const Dashboard: React.FC = () => {
     setSelectedBar(selectedBar === index ? null : index);
   };
 
-  const handleBarKeyPress = (event: React.KeyboardEvent, index: number) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      handleBarClick(index);
-    }
-  };
-
   if (!user || !isAuthenticated) {
     return <Navigate to={"/login"}/>
   }
@@ -156,8 +149,7 @@ const Dashboard: React.FC = () => {
                       height: `${(data.earnings / maxEarnings) * 100}%`
                     }}
                     title={`${data.month}: ${formatCurrency(data.earnings)} revenue`}
-                    onClick={() => handleBarClick(index)}
-                    onKeyDown={(e) => handleBarKeyPress(e, index)}
+                    onClick={() => handleBarClick(index)}               
                     tabIndex={0}
                     role="button"
                     aria-label={`${data.month} revenue: ${formatCurrency(data.earnings)}`}
@@ -173,7 +165,6 @@ const Dashboard: React.FC = () => {
                     }}
                     title={`${data.month}: ${data.orders} orders`}
                     onClick={() => handleBarClick(index)}
-                    onKeyDown={(e) => handleBarKeyPress(e, index)}
                     tabIndex={0}
                     role="button"
                     aria-label={`${data.month} orders: ${data.orders}`}

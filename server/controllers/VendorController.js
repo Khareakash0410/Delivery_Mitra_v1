@@ -109,14 +109,14 @@ export const updateVendorPassword = CatchAsyncError(async(req, res) => {
 
 export const updateStoreStatus = CatchAsyncError(async(req, res) => {
   const vendorId = req.user?.id;
-  const statusValue = req.body;
-  const fieldValidate = validateFields(vendorId, statusValue);
+  const {status} = req.body;
+  const fieldValidate = validateFields(vendorId, status);
   if (fieldValidate) {
     return res.status(400).json(errorResponse(fieldValidate)); 
   }
 
   try {
-    const result = VendorService.updateStoreStatus(vendorId, statusValue);
+    const result = await VendorService.updateStoreStatus(vendorId, status);
     if (!result.status) {
         return res.status(400).json(errorResponse(result.message));
     }
@@ -124,11 +124,10 @@ export const updateStoreStatus = CatchAsyncError(async(req, res) => {
         vendor: result.data
     }));
   } catch (error) {
+    console.log(error);
     return res.status(500).json(errorResponse(error.message || "Internal Server Error"));
   }
 });
-
-
 
 
 
@@ -139,14 +138,14 @@ export const updateStoreStatus = CatchAsyncError(async(req, res) => {
 
 export const addProduct = CatchAsyncError(async(req, res) => {
   const vendorId = req.user?.id;
-  const {name, category, description, price, platformFeesPerUnit, stocks, options, images} = req.body;
-  const fieldValidate = validateFields(name, category, description, price, platformFeesPerUnit, stocks, options, images, vendorId);
+  const {name, category, description, price, platformFeesPerUnit, stocks, variant, images} = req.body;
+  const fieldValidate = validateFields(name, category, description, price, platformFeesPerUnit, stocks, variant, images, vendorId);
   if (fieldValidate) {
     return res.status(400).json(errorResponse(fieldValidate)); 
   }
 
   try {
-    const result = await VendorService.addProduct(vendorId, name, category, description, price, platformFeesPerUnit, stocks, options, images);
+    const result = await VendorService.addProduct(vendorId, name, category, description, price, platformFeesPerUnit, stocks, variant, images);
     if (!result.status) {
       return res.status(400).json(errorResponse(result.message));
     }

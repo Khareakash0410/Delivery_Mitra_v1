@@ -22,6 +22,10 @@ const Product = sequelize.define("Product", {
         type: DataTypes.STRING,
         allowNull: true,
     },
+    variant: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
 
     //pricing
     price: {

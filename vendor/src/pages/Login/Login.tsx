@@ -40,8 +40,6 @@ const Auth: React.FC = () => {
     setEnabled(true);
   };
 
-  console.log(data)
-
   useEffect(() => {
    if (data) {
     toast.success(data?.message);

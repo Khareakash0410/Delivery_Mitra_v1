@@ -87,13 +87,11 @@ const Landing: React.FC = () => {
     setLoadingOrder(orderId);
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1500));
-    console.log('Accepted order:', orderId);
     setLoadingOrder(null);
     // Here you would typically update the order status
   };
 
   const handleReject = (orderId: string) => {
-    console.log('Rejected order:', orderId);
   };
 
   return (

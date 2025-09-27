@@ -1,6 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Upload } from 'lucide-react';
 import styles from './AddProduct.module.css';
+import { categoryOptions } from '../../types/ProductCategory';
+import { uploadImage } from '../../utils/ImageUploader';
+import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../../store/store';
+import { Navigate } from 'react-router-dom';
+import usePostApi from '../../api/usePostApi';
+import apiEndpoints from '../../api/Config';
 
 interface ProductData {
   name: string;
@@ -10,11 +18,13 @@ interface ProductData {
   description: string;
   stockAvailable: boolean;
   category: string;
-  options: string[];
-  images: { url: string; altText: string }[];
+  variant: string;
+  images: string[];
 }
 
 const AddProduct: React.FC = () => {
+  const {user, isAuthenticated} = useSelector((state: RootState) => state.user);
+
   const [productData, setProductData] = useState<ProductData>({
     name: '',
     price: 0,
@@ -23,27 +33,22 @@ const AddProduct: React.FC = () => {
     description: '',
     stockAvailable: true,
     category: '',
-    options: [],
+    variant: '',
     images: [],
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
-    const { name, value, type } = e.target;
-    
+  const {data, loading, error, setEnabled} = usePostApi(`${apiEndpoints.PRODUCT.ADD}`, productData);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>): void => {
+    const { name, value, type } = e.target;  
     if (type === 'checkbox') {
       const checkbox = e.target as HTMLInputElement;
       setProductData(prev => ({
         ...prev,
         [name]: checkbox.checked
       }));
-    } else if (name === 'options') {
-      // Handle comma-separated options
-      const optionsArray = value.split(',').map(option => option.trim()).filter(option => option);
-      setProductData(prev => ({
-        ...prev,
-        options: optionsArray
-      }));
-    } else {
+    } 
+    else {
       setProductData(prev => ({
         ...prev,
         [name]: type === 'number' ? parseFloat(value) || 0 : value
@@ -51,55 +56,28 @@ const AddProduct: React.FC = () => {
     }
   };
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Create preview URL
-    const imageUrl = URL.createObjectURL(file);
-    const newImage = {
-      url: imageUrl,
-      altText: `Product image ${productData.images.length + 1}`
-    };
+    const data = await uploadImage(file);
+    toast.success(data?.message);
 
     setProductData(prev => ({
-      ...prev,
-      images: [...prev.images, newImage]
+      ...prev, images: [...prev.images, data?.imageUrl]
     }));
   };
 
   const removeImage = (indexToRemove: number): void => {
     setProductData(prev => {
-      // Clean up object URL
-      const imageToRemove = prev.images[indexToRemove];
-      if (imageToRemove?.url.startsWith('blob:')) {
-        URL.revokeObjectURL(imageToRemove.url);
-      }
-
-      return {
-        ...prev,
-        images: prev.images.filter((_, index) => index !== indexToRemove)
-      };
+    return {
+      ...prev,
+      images: prev.images.filter((_, index) => index !== indexToRemove)
+    };
     });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
-    
-    // Validate required fields
-    if (!productData.name.trim()) {
-      alert('Product name is required');
-      return;
-    }
-    if (productData.price <= 0) {
-      alert('Price must be greater than 0');
-      return;
-    }
-
-    console.log('Adding product:', productData);
-    alert('Product added successfully!');
-    
-    // Reset form
+  const resetForm = () => {
     setProductData({
       name: '',
       price: 0,
@@ -108,10 +86,32 @@ const AddProduct: React.FC = () => {
       description: '',
       stockAvailable: true,
       category: '',
-      options: [],
+      variant: '',
       images: [],
     });
   };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+    setEnabled(true);
+  };
+
+  useEffect(() => {
+   if (data) {
+    toast.success(data?.message);
+    setEnabled(false);
+    resetForm();
+   }
+   if (error) {
+    toast.error(error?.message);
+    setEnabled(false);
+   }
+  }, [data, error]);
+
+  if (!user || !isAuthenticated) {
+    return <Navigate to={"/login"}/>
+  };
+
 
   return (
     <div className={styles.container}>
@@ -142,17 +142,25 @@ const AddProduct: React.FC = () => {
           {/* Category */}
           <div className={styles.formGroup}>
             <label className={styles.label} htmlFor="category">
-              Category
+              Category *
             </label>
-            <input
+            <select
               id="category"
-              type="text"
               name="category"
               value={productData.category}
               onChange={handleChange}
-              className={styles.input}
-              placeholder="Enter category name"
-            />
+              className={styles.select}
+              required
+            >
+              <option value="" disabled>
+                Select a category
+              </option>
+              {categoryOptions.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
           </div>
 
           {/* Description */}
@@ -190,28 +198,10 @@ const AddProduct: React.FC = () => {
             />
           </div>
 
-          {/* Discounted Price */}
-          <div className={styles.formGroup}>
-            <label className={styles.label} htmlFor="discountedPrice">
-              Discounted Price
-            </label>
-            <input
-              id="discountedPrice"
-              type="number"
-              name="discountedPrice"
-              value={productData.discountedPrice || ''}
-              onChange={handleChange}
-              className={styles.input}
-              min="0"
-              step="0.01"
-              placeholder="0.00"
-            />
-          </div>
-
           {/* Platform Fees */}
           <div className={styles.formGroup}>
             <label className={styles.label} htmlFor="platformFees">
-              Plateform Fees Per Unit Price
+              Platform Fees Per Unit Price
             </label>
             <input
               id="platformFees"
@@ -243,16 +233,16 @@ const AddProduct: React.FC = () => {
           {/* Options */}
           <div className={styles.formGroup}>
             <label className={styles.label} htmlFor="options">
-              Options (comma-separated)
+              Options
             </label>
             <input
-              id="options"
+              id="variant"
               type="text"
-              name="options"
-              value={productData.options.join(', ')}
+              name="variant"
+              value={productData.variant}
               onChange={handleChange}
               className={styles.input}
-              placeholder="S, M, L, XL"
+              placeholder="like Kg, Litre, Size, etc."
             />
           </div>
         </div>
@@ -279,7 +269,7 @@ const AddProduct: React.FC = () => {
               {productData.images.map((image, index) => (
                 <div key={index} className={styles.imageItem}>
                   <img 
-                    src={image.url} 
+                    src={image} 
                     alt={`Product ${index + 1}`} 
                     className={styles.image}
                   />
@@ -303,9 +293,10 @@ const AddProduct: React.FC = () => {
             type="submit"
             className={styles.submitButton}
           >
-            Add Product
+            {loading ? "Adding" : "Add Product"}
           </button>
         </div>
+
       </form>
     </div>
   );

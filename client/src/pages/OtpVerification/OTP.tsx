@@ -82,8 +82,6 @@ const OTPVerify = () => {
     }
   }, [loginData, loginError]);
 
-  console.log(loginData)
-
   if(isAuthenticated || user) {
     return <Navigate to={"/"}/>
   };

@@ -1,7 +1,6 @@
 import sequelize from "../database/database.js";
 import Product from "./Products/Products.js";
 import ProductImage from "./Products/ProductImages.js";
-import ProductOptions from "./Products/ProductOptions.js";
 import Vendor from "./Roles/Vendors.js";
 import User from "./Roles/Users.js";
 import Address from "./Auth/Address.js";
@@ -21,10 +20,6 @@ Product.belongsTo(Vendor, { foreignKey: "vendorId", as: "vendor" });
 // Product <-> ProductImage
 Product.hasMany(ProductImage, { foreignKey: "productId", as: "images" });
 ProductImage.belongsTo(Product, { foreignKey: "productId", as: "product" });
-
-// Product <-> ProductOptions
-Product.hasMany(ProductOptions, { foreignKey: "productId", as: "options" });
-ProductOptions.belongsTo(Product, { foreignKey: "productId", as: "product" });
 
 // User <-> Address
 User.hasMany(Address, { foreignKey: "userId", as: "addresses" });
@@ -66,7 +61,6 @@ export {
     sequelize,
     Product,
     ProductImage,
-    ProductOptions,
     Vendor,
     Cart,
     CartItem,

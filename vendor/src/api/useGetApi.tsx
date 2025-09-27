@@ -22,8 +22,7 @@ interface ApiResult {
     setEnabled: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
- const token = localStorage.getItem("token");
-
+const token = localStorage.getItem("token");
 
 const useGetApi = (url: string): ApiResult => {
 
@@ -38,9 +37,12 @@ const useGetApi = (url: string): ApiResult => {
    const fetchData = async () => {
      setLoading(true);
      try {
-       const response: AxiosResponse<ApiResponse> = await axios.get(url, {withCredentials: true, headers: {
-        Authorization: `Bearer ${token}`,
-       }});
+       const response: AxiosResponse<ApiResponse> = await axios.get(url, {
+        withCredentials: true, 
+        headers: {
+         Authorization: `Bearer ${token}`,
+         }
+        });
         setData(response.data);
      } catch (error: unknown) {
         const apiError = (error as AxiosError<ApiError>).response?.data || { message: "Error fetching data."};

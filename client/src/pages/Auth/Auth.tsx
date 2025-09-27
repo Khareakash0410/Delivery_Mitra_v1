@@ -44,7 +44,6 @@ const Auth: React.FC = () => {
     e.preventDefault();
     if (isSignUp) {
     addEnabled(true);
-    console.log(formData);
     }
     loginEnabled(true);
   };

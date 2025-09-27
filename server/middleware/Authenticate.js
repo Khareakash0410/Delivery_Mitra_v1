@@ -82,4 +82,4 @@ export const areAuthenticated = CatchAsyncError(async(req, res, next) => {
   } catch (error) {
     return res.status(401).json(errorResponse('Invalid or expired token'));
   }
-})
+});

@@ -2,20 +2,23 @@ import { DataTypes } from "sequelize";
 import sequelize from "../../database/database.js";
 
 const ProductImage = sequelize.define("ProductImage", {
-    id: {
-        type: DataTypes.INTEGER,
+    image_id: {
+        type: DataTypes.BIGINT,
         primaryKey: true,
         autoIncrement: true,
-        unique: true,
     },
-    imageUrl: {
+    variant_id: {
+        type: DataTypes.BIGINT,
+        allowNull: false,
+        references: {
+            model: "ProductVariant",
+            key: "variant_id",
+        }
+    },
+    url: {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    productId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    }
 });
 
 export default ProductImage;

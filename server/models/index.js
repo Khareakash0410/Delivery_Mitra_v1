@@ -1,7 +1,6 @@
 import sequelize from "../database/database.js";
 import Product from "./Products/Products.js";
 import ProductImage from "./Products/ProductImages.js";
-import Vendor from "./Roles/Vendors.js";
 import User from "./Roles/Users.js";
 import Address from "./Auth/Address.js";
 import Cart from "./Cart/Cart.js";
@@ -11,11 +10,33 @@ import OrderItem from "./Orders/OrderItems.js";
 import DeliveryAgent from "./Roles/DeliveryAgents.js";
 import OTP from "./Auth/OTP.js";
 import Admin from "./Roles/Admins.js";
+import Vendor from "./Roles/VendorInfo.js";
+import Categories from "./Products/Categories.js";
+
+
+
+
+
+
+// Users <-> Seller 
+User.hasOne(Vendor, { foreignKey: "user_id", as: "vendor" });
+Vendor.belongsTo(User, { foreignKey: "user_id", as: "user" });
+
+// User <-> Delivery Agent
+User.hasOne(DeliveryAgent, { foreignKey: "user_id", as: "deliveryAgent" });
+DeliveryAgent.belongsTo(User, { foreignKey: "user_id", as: "user" });
+
+
 
 
 // Product <-> Vendor
-Vendor.hasMany(Product, { foreignKey: "vendorId", as: "products" });
-Product.belongsTo(Vendor, { foreignKey: "vendorId", as: "vendor" });
+Vendor.hasMany(Product, { foreignKey: "seller_id", as: "products" });
+Product.belongsTo(Vendor, { foreignKey: "seller_id", as: "vendor" });
+
+
+// Product <-> Categories
+Categories.hasMany(Product, { foreignKey: "seller_id", as: "products" });
+Product.belongsTo(Vendor, { foreignKey: "seller_id", as: "vendor" });
 
 // Product <-> ProductImage
 Product.hasMany(ProductImage, { foreignKey: "productId", as: "images" });

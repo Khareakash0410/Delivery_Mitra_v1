@@ -3,8 +3,8 @@ import sequelize from "../../database/database.js";
 import jwt from "jsonwebtoken";
 
 const Users = sequelize.define("Users", {
-    id: {
-        type: DataTypes.INTEGER,
+    user_id: {
+        type: DataTypes.BIGINT,
         primaryKey: true,
         autoIncrement: true,
         unique: true,
@@ -16,7 +16,7 @@ const Users = sequelize.define("Users", {
     phone: {
         type: DataTypes.STRING(10),
         allowNull: false,
-        unique: 'phone_unique_constraint',
+        unique: true,
         validate: {
             is: {
                 args: /^[6-9][0-9]{9}$/,
@@ -26,9 +26,18 @@ const Users = sequelize.define("Users", {
     },
     email: {
         type: DataTypes.STRING(40),
+        unique: true,
         validate: {
         isEmail: true
         }
+    },
+    password: {
+        type: DataTypes.STRING(255),
+        allowNull: false,
+    },
+    role: {
+        type: DataTypes.ENUM("customer", "seller", "delivery_agent", "admin"),
+        defaultValue: "customer",
     },
     profilePic: {
         type: DataTypes.STRING,
@@ -38,15 +47,16 @@ const Users = sequelize.define("Users", {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
     },
-    utmCampaign: DataTypes.STRING,
-    utmSource: DataTypes.STRING,
-    utmMedium: DataTypes.STRING,
+    address: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    }
 }, {
     timestamps: true,
     indexes: [
        {
             unique: true,
-            fields: ['id'],
+            fields: ['user_id'],
             name: 'user_id_unique'
         },
         {
@@ -54,9 +64,30 @@ const Users = sequelize.define("Users", {
             fields: ['phone'],
             name: 'user_phone_unique'
         }
-    ]
+    ],
+    hooks: {
+    beforeCreate: async (user) => {
+      if (user.password) {
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(user.password, salt);
+      }
+    },
+    beforeUpdate: async (user) => {
+      if (user.changed('password')) {
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(user.password, salt);
+      }
+    }
+   }
    }
 );
+
+
+// Compare Password
+Users.prototype.matchPassword = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
+
 
 // Generate JWT Token
 Users.prototype.generateToken = function() {

@@ -4,30 +4,35 @@ import sequelize from "../../database/database.js";
 const Product = sequelize.define("Product", {
 
     //details
-    id: {
-        type: DataTypes.INTEGER,
+    product_id: {
+        type: DataTypes.BIGINT,
         primaryKey: true,
         autoIncrement: true,
-        unique: true,
+    },
+    seller_id: {
+        type: DataTypes.BIGINT,
+        allowNull: false,
+        references: {
+            model: "Vendor",
+            key: "seller_id",
+        }
+    },
+    category_id: {
+        type: DataTypes.BIGINT,
+        allowNull: false,
+        references: {
+            model: "Categories",
+            key: "category_id",
+        }
     },
     name: {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    category: {
-        type: DataTypes.ENUM("Grocery", "Electronics", "Dairy", "Medicine", "Foods", "Others"),
-        default: "Others",
-    },
     description: {
         type: DataTypes.STRING,
         allowNull: true,
     },
-    variant: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-
-    //pricing
     price: {
         type: DataTypes.FLOAT,
         allowNull: false,
@@ -37,14 +42,26 @@ const Product = sequelize.define("Product", {
         allowNull: false,
         defaultValue: 1.00
     },
-
-    //stocks
-    stocks: {
-        type: DataTypes.ENUM("In Stock", "Out of Stock"),
-        defaultValue: "In Stock",
+    is_active: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
     },
 
-}, {timestamps: true});
+}, {
+    timestamps: true,
+    indexes: [
+       {
+            unique: true,
+            fields: ['product_id'],
+            name: 'product_id_unique'
+        },
+        {
+            unique: true,
+            fields: ['name'],
+            name: 'name_unique'
+        }
+    ],
+});
 
 
 export default Product;

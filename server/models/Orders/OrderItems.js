@@ -2,20 +2,16 @@ import { DataTypes } from "sequelize";
 import sequelize from "../../database/database.js";
 
 const OrderItem = sequelize.define("OrderItem", {
-    id: {
+    order_item_id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
     },
-    orderId: {
+    order_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
-    productId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    },
-    vendorId: {
+    product_variant_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
@@ -24,19 +20,15 @@ const OrderItem = sequelize.define("OrderItem", {
         allowNull: false,
         defaultValue: 1,
     },
-    itemPrice: {
+    price: {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
     },
-    itemOption: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    status: {
-        type: DataTypes.ENUM("Pending", "Accepted", "Rejected", "Dispatched"),
-        defaultValue: "Pending",
+    sub_total: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: false,
     }
 
-}, {timestamps: true});
+});
 
 export default OrderItem;

@@ -3,17 +3,25 @@ import sequelize from "../../database/database.js";
 
 const OrderItem = sequelize.define("OrderItem", {
     order_item_id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT,
         primaryKey: true,
         autoIncrement: true,
     },
     order_id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT,
         allowNull: false,
+        references: {
+            model: "Order",
+            key: "order_id",
+        }
     },
-    product_variant_id: {
-        type: DataTypes.INTEGER,
+    variant_id: {
+        type: DataTypes.BIGINT,
         allowNull: false,
+        references: {
+            model: "ProductVariant",
+            key: "variant_id",
+        }
     },
     quantity: {
         type: DataTypes.INTEGER,

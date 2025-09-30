@@ -1,4 +1,4 @@
-import { Admin, DeliveryAgent, User, Vendor } from "../models/index.js";
+import { DeliveryAgent, User, Vendor } from "../models/index.js";
 import { errorResponse } from "../utils/responseUtil.js";
 import { CatchAsyncError } from "./CatchAsyncError.js";
 import jwt from "jsonwebtoken";

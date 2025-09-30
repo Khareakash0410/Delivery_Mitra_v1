@@ -7,6 +7,21 @@ const DeliveryAssignment = sequelize.define("DeliveryAssignment", {
         primaryKey: true,
         autoIncrement: true,
     },
+    order_id: {
+        type: DataTypes.BIGINT,
+        allowNull: false,
+        references: {
+            model: "Order",
+            key: "order_id",
+        }
+    },
+    delivery_gent_id: {
+        allowNull: false,
+        references: {
+            model: "Order",
+            key: "order_id",
+        }
+    },
     status: {
         type: DataTypes.ENUM('assigned', 'in_transit', 'delivered', 'failed'),
         defaultValue: "assigned",

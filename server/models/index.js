@@ -7,9 +7,8 @@ import Cart from "./Cart/Cart.js";
 import CartItem from "./Cart/CartItem.js";
 import Order from "./Orders/Orders.js";
 import OrderItem from "./Orders/OrderItems.js";
-import DeliveryAgent from "./Roles/DeliveryAgents.js";
+import DeliveryAgent from "./Roles/DeliveryAgentInfo.js";
 import OTP from "./Auth/OTP.js";
-import Admin from "./Roles/Admins.js";
 import Vendor from "./Roles/VendorInfo.js";
 import Categories from "./Products/Categories.js";
 
@@ -31,20 +30,48 @@ DeliveryAgent.belongsTo(User, { foreignKey: "user_id", as: "user" });
 
 // Product <-> Vendor
 Vendor.hasMany(Product, { foreignKey: "seller_id", as: "products" });
-Product.belongsTo(Vendor, { foreignKey: "seller_id", as: "vendor" });
-
+Product.belongsTo(Vendor, { foreignKey: "seller_id", as: "seller" });
 
 // Product <-> Categories
-Categories.hasMany(Product, { foreignKey: "seller_id", as: "products" });
-Product.belongsTo(Vendor, { foreignKey: "seller_id", as: "vendor" });
+Categories.hasMany(Categories, { foreignKey: "parent_id", as: "subcategories" });
+Categories.belongsTo(Categories, { foreignKey: "parent_id", as: "parent" });
 
-// Product <-> ProductImage
-Product.hasMany(ProductImage, { foreignKey: "productId", as: "images" });
-ProductImage.belongsTo(Product, { foreignKey: "productId", as: "product" });
 
-// User <-> Address
-User.hasMany(Address, { foreignKey: "userId", as: "addresses" });
-Address.belongsTo(User, { foreignkey: "userId", as: "user" });
+//  Product <-> Category 
+Categories.hasMany(Product, { foreignKey: "category_id", as: "products" });
+Product.belongsTo(Categories, { foreignKey: "category_id", as: "category" });
+
+
+//  Product <-> Variants 
+Product.hasMany(ProductVariant, { foreignKey: "product_id", as: "variants" });
+ProductVariant.belongsTo(Product, { foreignKey: "product_id", as: "product" });
+
+
+//  Variant <-> Images 
+ProductVariant.hasMany(ProductImage, { foreignKey: "variant_id", as: "images" });
+ProductImage.belongsTo(ProductVariant, { foreignKey: "variant_id", as: "variant" });
+
+
+
+
+//  User <-> Order 
+User.hasMany(Order, { foreignKey: "customer_id", as: "orders" });
+Order.belongsTo(User, { foreignKey: "customer_id", as: "customer" });
+
+//  Vendor <-> Order 
+Vendor.hasMany(Order, { foreignKey: "seller_id", as: "orders" });
+Order.belongsTo(Vendor, { foreignKey: "seller_id", as: "seller" });
+
+//  Order <-> OrderItem 
+Order.hasMany(OrderItem, { foreignKey: "order_id", as: "items" });
+OrderItem.belongsTo(Order, { foreignKey: "order_id", as: "order" });
+
+//  OrderItem <-> ProductVariant 
+ProductVariant.hasMany(OrderItem, { foreignKey: "variant_id", as: "orderItems" });
+OrderItem.belongsTo(ProductVariant, { foreignKey: "variant_id", as: "variant" });
+
+
+
 
 // User <-> cart
 User.hasOne(Cart, { foreignKey: "userId", as: "cart" });
@@ -58,21 +85,7 @@ CartItem.belongsTo(Cart, { foreignKey: "cartId", as: "cart" });
 Product.hasMany(CartItem, { foreignKey: "prductId", as: "cartItems" });
 CartItem.belongsTo(Product, { foreignKey: "productId", as: "product" });
 
-// User <-> Order
-User.hasMany(Order, { foreignKey: "userId", as: "orders" });
-Order.belongsTo(User, { foreignKey: "userId", as: "user" });
 
-// Order <-> OrderItem
-Order.hasMany(OrderItem, { foreignKey: "orderId", as: "items" });
-OrderItem.belongsTo(Order, { foreignKey: "orderId", as: "order" });
-
-// Vendor <-> OrderItems
-Vendor.hasMany(OrderItem, { foreignKey: "vendorId", as: "orderItems" });
-OrderItem.belongsTo(Vendor, { foreignKey: "vendorId", as: "vendor" });
-
-// Product <-> OrderItems
-Product.hasMany(OrderItem, { foreignKey: "productId", as: "orderItems" });
-OrderItem.belongsTo(Product, { foreignKey: "productId", as: "product" });
 
 // DeliveryAgent <-> Order
 DeliveryAgent.hasMany(Order, { foreignKey: "deliveryAgentId", as: "assignedOrders" });
@@ -90,6 +103,5 @@ export {
     Order,
     OrderItem,
     DeliveryAgent,
-    OTP,
-    Admin
+    OTP
 };

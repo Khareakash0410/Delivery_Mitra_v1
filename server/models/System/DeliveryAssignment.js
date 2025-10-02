@@ -15,11 +15,11 @@ const DeliveryAssignment = sequelize.define("DeliveryAssignment", {
             key: "order_id",
         }
     },
-    delivery_gent_id: {
+    delivery_agent_id: {
         allowNull: false,
         references: {
-            model: "Order",
-            key: "order_id",
+            model: "Users",
+            key: "user_id",
         }
     },
     status: {

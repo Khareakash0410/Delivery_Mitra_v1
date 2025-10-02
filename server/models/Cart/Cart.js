@@ -7,11 +7,11 @@ const Cart = sequelize.define("Cart", {
         primaryKey: true,
         autoIncrement: true,
     },
-    userId: {
+    user_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
-    guestId: {
+    guest_id: {
         type: DataTypes.STRING(100),
         allowNull: true,
     },

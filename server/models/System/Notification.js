@@ -7,6 +7,14 @@ const Notification = sequelize.define("Notification", {
         primaryKey: true,
         autoIncrement: true,
     },
+    user_id: {   
+        type: DataTypes.BIGINT,
+        allowNull: false,
+        references: {
+            model: "Users",
+            key: "user_id",
+        }
+    },
     message: {
         type: DataTypes.STRING,
     },

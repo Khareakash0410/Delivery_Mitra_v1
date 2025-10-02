@@ -7,6 +7,15 @@ const Payments = sequelize.define("Payments", {
         primaryKey: true,
         autoIncrement: true,
     },
+    order_id: {   
+        type: DataTypes.BIGINT,
+        allowNull: false, 
+        references: {
+            model: "Order",
+            key: "order_id",
+        },
+        onDelete: "CASCADE",
+    },
     payment_method: {
         type: DataTypes.ENUM('card', 'upi', 'wallet', 'cod'),
         defaultValue: "cod",

@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../../database/database.js";
 
-const ProductVariant = sequelize.define("ProductVariant", {
+const ProductVariants = sequelize.define("ProductVariant", {
     variant_id: {
         type: DataTypes.BIGINT,
         primaryKey: true,
@@ -11,7 +11,7 @@ const ProductVariant = sequelize.define("ProductVariant", {
         type: DataTypes.BIGINT,
         allowNull: false,
         references: {
-            model: "Product",
+            model: "Products",
             key: "product_id",
         }
     },
@@ -39,4 +39,4 @@ const ProductVariant = sequelize.define("ProductVariant", {
     timestamps: true
 });
 
-export default ProductVariant;
+export default ProductVariants;

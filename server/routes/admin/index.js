@@ -12,7 +12,7 @@ const router = express.Router();
 
 
 router.use("/admin/auth", authRoutes);
-router.use("/admin/vednors", vendorRoutes);
+router.use("/admin/vendors", vendorRoutes);
 router.use("/admin/delivery-agent", deliveryAgentRoutes);
 router.use("/admin/user", userRoutes);
 

@@ -1,15 +1,42 @@
-import { Address, Admin, User, Vendor } from "../models/index.js";
+import { Categories, Users, Vendors } from "../models/index.js";
 import bcrypt from "bcrypt";
 import { generateUniqueEmpId } from "../utils/employeeId.js";
 
 
 export default class AdminService {
 
+    
+    static async register(name, phone, email, password) {
+        try {
+            const adminExists = await Users.findOne({
+                where: {email, phone}
+            });
+ 
+            if(adminExists) {
+                return {status: 0, message: "Acount already exists"}
+            }
+
+            const admin = await Users.create({
+              name,
+              phone,
+              email,
+              password,
+              role: "admin"
+            });
+
+            if(!admin) {
+                return {status: 0, message: "failed to add admin"}
+            }
+            return {status: 1, message: "Admin added successful"}
+        } catch (error) {
+            return {status: 0, message: "Failed to register"}
+        }
+    }
+
     static async login(email, password) {
         try {
-            const admin = await Admin.findOne({
-                where: {email},
-                attributes: ["id", "email", "password", "name", "euid", "password", "role", "isActive"],
+            const admin = await Users.findOne({
+                where: {email}
             });
  
             if(!admin) {
@@ -140,6 +167,9 @@ export default class AdminService {
          }
     }
 
+
+
+
     static async getAllVendor (page = 1, limit = 10) {
         const offset = (page - 1) * limit;
         try {
@@ -160,26 +190,33 @@ export default class AdminService {
          }
     }
 
-
-    static async addVendor(email, password) {
+    static async addVendor(name, phone, email, password) {
         try {
-        const exisitngVendor = await Vendor.findOne({where: {email}});
+        const exisitngVendor = await Users.findOne({where: {email}});
+
         if(exisitngVendor) {
             return {status: 0, message: "Account already exist"}
         }
-        const salt  = await bcrypt.genSalt(10);
-        const newPassword = await bcrypt.hash(password, salt);
 
-        const vendor = await Vendor.create({
+        const vendor = await Users.create({
+            name,
             email,
-            password: newPassword
+            phone,
+            password,
+            role: "seller"
         });
-        if(!vendor) {
+
+        const seller = await Vendors.create({
+            user_id: vendor.user_id,
+            shop_name: name
+        });
+
+        if(!seller) {
                 return {status: 0, message: "failed to add vendor"}
         }
         return {status: 1, message: "Vendor added successful"}  
         } catch (error) {
-            return {status: 0, message: "Add admin failed", error}
+            return {status: 0, message: "Add vendor failed", error}
         }
     }
     
@@ -200,20 +237,13 @@ export default class AdminService {
         }
     }
 
+
+
     static async getAllUser(page = 1, limit = 10) {
       const offset = (page - 1) * limit;
       try {
         const {count, rows:users} = await User.findAndCountAll({
             attributes: ["id", "name", "phone", "email"],
-            include: [
-                {
-                model: Address,
-                as: "addresses",
-                separate: true,          
-                limit: 1,                
-                order: [["createdAt", "ASC"]]
-                }
-            ],
             limit,
             offset,
             order: [["createdAt", "DESC"]],
@@ -228,5 +258,28 @@ export default class AdminService {
         return {status: 0, message: "Failed to fetch users"}
       }
     }
+
+
+    static async addCategory (name, parent_id) {
+       try {
+        const exisitng = await Categories.findOne({
+            where: {name}
+        });
+        if (exisitng) {
+            return {status: 0, message: "Already exisitng category"}
+        }
+
+        await Categories.create({
+            name,
+            parent_id
+        });
+
+        return {status: 1, message: "Category created"}
+       } catch (error) {
+        console.log(error)
+        return {status: 0, message: "Failed to create category"}
+       }
+    }
+
 
 }

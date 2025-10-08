@@ -1,39 +1,25 @@
 import { Op } from "sequelize";
-import { Address, User, OTP, Order, OrderItem, Product, ProductImage } from "../models/index.js";
+import { Users, OTPs, Orders, OrderItems, Products, ProductImages } from "../models/index.js";
 export default class UserService {
 
+
     static async getUserByPhone (phone) {
-        return await User.findOne({
-            where: { phone },
-            include: [
-                {
-                model: Address,
-                as: "addresses",  
-                attributes: ["id", "addressLine1", "city","pincode"],
-                }
-            ]
-        })
+        return await Users.findOne({
+            where: { phone }
+        });
     }
 
     static async getUserById(id) {
-        const user = await User.findByPk(id, {
-            include: [
-                {
-                model: Address,
-                as: "addresses",  
-                attributes: ["id", "addressLine1", "city","pincode"],
-                }
-            ]
-        });
+        const user = await Users.findByPk(id);
 
         if (!user) {
             return {status: 0, message: "Failed to fetch"};
         }
-        return {status: 1, message: "User profile fethced", data: user.get({plain: true})};
+        return {status: 1, message: "User profile fetched", data: user.get({plain: true})};
     }
 
     static async getUserOrders (id) {
-        const userOrders = await User.findByPk(id, {
+        const userOrders = await Users.findByPk(id, {
           include: [
             {
             model: Order,
@@ -91,18 +77,13 @@ export default class UserService {
         return userOrders.get({plain: true});
     }
 
+
+
     static async regiserUser(phone) {
         try {
 
-            const existingUser = await User.findOne({
-                where: { phone },
-                include: [
-                    {
-                    model: Address,
-                    as: "addresses",  
-                    attributes: ["id", "addressLine1", "city","pincode"],
-                    },
-                ],
+            const existingUser = await Users.findOne({
+                where: { phone }
             });
 
             if (existingUser){
@@ -113,7 +94,7 @@ export default class UserService {
             const otp = 987654;
             const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
 
-            await OTP.upsert({
+            await OTPs.upsert({
                 phone,
                 otp,
                 expiresAt: otpExpiry
@@ -126,7 +107,7 @@ export default class UserService {
     }
 
     static async verifyOtp(name, phone, otp, utm_source, utm_medium, utm_campaign) {
-        const validOtp = await OTP.findOne({
+        const validOtp = await OTPs.findOne({
             where: {
                 otp,
                 phone,
@@ -142,7 +123,7 @@ export default class UserService {
         }
 
         try {
-            const user = await User.create({
+            const user = await Users.create({
                 name, 
                 phone,
                 isVerified: true,
@@ -153,8 +134,6 @@ export default class UserService {
             
             validOtp.isUsed = true;
             await validOtp.save();
-
-
 
             return { status: 1, message: "OTP verified successfully", data: user}; 
         } catch (error) {
@@ -172,7 +151,7 @@ export default class UserService {
 
             const otp = 987654;
             const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
-            await OTP.create({
+            await OTPs.create({
                 phone,
                 otp,
                 expiresAt: otpExpiry,
@@ -188,7 +167,7 @@ export default class UserService {
 
     static async verifyLoginOtp (phone, otp, utm_source, utm_medium, utm_campaign) {
         try {
-            const validOtp = await OTP.findOne({
+            const validOtp = await OTPs.findOne({
                 where: {
                     phone, 
                     otp,
@@ -222,6 +201,8 @@ export default class UserService {
         }
     }
 
+
+
     static async updateUserProfile(userId, updateData) {
         const allowedFields = ["name", "email", "profilePic"];
 
@@ -233,8 +214,8 @@ export default class UserService {
                     updatePayload[field] = updateData[field];
                 }
             }
-            const [updateCount] = await User.update(updatePayload, {
-                where: {id: userId}
+            const [updateCount] = await Users.update(updatePayload, {
+                where: {user_id: userId}
             });
 
             if (updateCount === 0) {

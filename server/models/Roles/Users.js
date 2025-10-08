@@ -1,6 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../../database/database.js";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt"
 
 const Users = sequelize.define("Users", {
     user_id: {
@@ -16,7 +17,6 @@ const Users = sequelize.define("Users", {
     phone: {
         type: DataTypes.STRING(10),
         allowNull: false,
-        unique: true,
         validate: {
             is: {
                 args: /^[6-9][0-9]{9}$/,
@@ -26,14 +26,13 @@ const Users = sequelize.define("Users", {
     },
     email: {
         type: DataTypes.STRING(40),
-        unique: true,
         validate: {
         isEmail: true
         }
     },
     password: {
         type: DataTypes.STRING(255),
-        allowNull: false,
+        allowNull: true,
     },
     role: {
         type: DataTypes.ENUM("customer", "seller", "delivery_agent", "admin"),
@@ -92,7 +91,7 @@ Users.prototype.matchPassword = async function (enteredPassword) {
 // Generate JWT Token
 Users.prototype.generateToken = function() {
   return jwt.sign(
-    { id: this.id, phone: this.phone },
+    { id: this.user_id, phone: this.phone, role: this.role },
     process.env.JWT_SECRET_KEY,
     {
       expiresIn: process.env.JWT_EXPIRE,

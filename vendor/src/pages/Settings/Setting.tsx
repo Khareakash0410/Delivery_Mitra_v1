@@ -11,12 +11,12 @@ import usePutApi from '../../api/usePutApi';
 import { uploadImage } from '../../utils/ImageUploader';
 
 interface ConfigData {
-  shopname: string;
-  location: string;
+  shop_name: string;
+  shop_address: string;
   email: string;
   phone: string;
-  description: string;
-  logo: string;
+  gst_number: string;
+  profilePic: string;
 }
 
 interface PayoutData {
@@ -35,12 +35,12 @@ const RestaurantConfig: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'configuration' | 'payout'>('configuration');
 
   const [configData, setConfigData] = useState<ConfigData>({
-    shopname: '',
-    location: '',
+    shop_name: '',
+    shop_address: '',
     email: '',
     phone: '',
-    description: '',
-    logo: ''
+    gst_number: '',
+    profilePic: ''
   });
 
   const [payoutData, setPayoutData] = useState<PayoutData>({
@@ -69,7 +69,7 @@ const RestaurantConfig: React.FC = () => {
     toast.success(data?.message);
 
     if (activeTab === 'configuration') {
-      setConfigData((prev) => ({...prev, logo: data?.imageUrl}));
+      setConfigData((prev) => ({...prev, profilePic: data?.imageUrl}));
     } else {
       setPayoutData((prev) => ({...prev, qrCode: data?.imageUrl}));
     }
@@ -78,11 +78,10 @@ const RestaurantConfig: React.FC = () => {
   const handleSave = () => {
     if (activeTab === 'configuration') {
       setSendData({
-        shopname: configData?.shopname, 
-        location: configData?.location,
-        phone: configData?.phone,
-        description: configData?.description,
-        logo: configData?.logo
+        shop_name: configData?.shop_name, 
+        shop_address: configData?.shop_address,
+        gst_number: configData?.gst_number,
+        profilePic: configData?.profilePic
       });
     } else {
       setSendData({
@@ -102,19 +101,19 @@ const RestaurantConfig: React.FC = () => {
   useEffect(() => {
     if (data) {
     setConfigData({
-      shopname: data.data?.vendor?.shopname || '',
-      location: data.data?.vendor?.location || '',
+      shop_name: data.data?.vendor?.vendor?.shop_name || '',
+      shop_address: data.data?.vendor?.vendor.shop_address || '',
       email: data.data?.vendor?.email || '',
       phone: data.data?.vendor?.phone || '',
-      description: data.data?.vendor?.description || '',
-      logo: data.data?.vendor?.logo || '',
+      gst_number: data.data?.vendor?.vendor.gst_number || '',
+      profilePic: data.data?.vendor?.profilePic || '',
     });
 
     setPayoutData({
-      account_number: data.data?.vendor?.account_number || '',
-      bank_name: data.data?.vendor?.bank_name || '',
-      ifsc_code: data.data?.vendor?.ifsc_code || '',
-      qrCode: data.data?.vendor?.qrCode || "",
+      account_number: data.data?.vendor?.vendor.account_number || '',
+      bank_name: data.data?.vendor?.vendor.bank_name || '',
+      ifsc_code: data.data?.vendor?.vendor.ifsc_code || '',
+      qrCode: data.data?.vendor?.vendor.qrCode || "",
     });
 
     setEnabled(false);
@@ -176,8 +175,8 @@ const RestaurantConfig: React.FC = () => {
               <input
                 type="text"
                 className={styles.input}
-                value={configData.shopname}
-                onChange={(e) => handleConfigChange('shopname', e.target.value)}
+                value={configData.shop_name}
+                onChange={(e) => handleConfigChange('shop_name', e.target.value)}
                 placeholder="Enter restaurant name"
                 required
               />
@@ -188,8 +187,8 @@ const RestaurantConfig: React.FC = () => {
               <input
                 type="text"
                 className={styles.input}
-                value={configData.location}
-                onChange={(e) => handleConfigChange('location', e.target.value)}
+                value={configData.shop_address}
+                onChange={(e) => handleConfigChange('shop_address', e.target.value)}
                 placeholder="Enter restaurant location"
                 required
               />
@@ -213,30 +212,29 @@ const RestaurantConfig: React.FC = () => {
                 type="tel"
                 className={styles.input}
                 value={configData.phone}
-                onChange={(e) => handleConfigChange('phone', e.target.value)}
+                disabled
                 placeholder="Enter phone number"
                 required
               />
             </div>
 
             <div className={styles.fieldGroup}>
-              <label className={styles.label}>Tagline</label>
-              <textarea
-                className={styles.textarea}
-                value={configData.description}
-                onChange={(e) => handleConfigChange('description', e.target.value)}
-                placeholder="Enter restaurant tagline or description"
-                rows={3}
+              <label className={styles.label}>GST Number</label>
+              <input
+                className={styles.input}
+                value={configData.gst_number}
+                onChange={(e) => handleConfigChange('gst_number', e.target.value)}
+                placeholder="Enter gst number"
               />
             </div>
 
             <div className={styles.fieldGroup}>
               <label className={styles.label}>Upload Logo</label>
               
-              {configData?.logo ? (
+              {configData?.profilePic ? (
                 <div className={styles.logoContainer}>
                   <img
-                    src={configData?.logo}
+                    src={configData?.profilePic}
                     alt="Restaurant logo"
                     className={styles.currentLogo}
                   />

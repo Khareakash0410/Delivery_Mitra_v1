@@ -11,10 +11,9 @@ const Payments = sequelize.define("Payments", {
         type: DataTypes.BIGINT,
         allowNull: false, 
         references: {
-            model: "Order",
+            model: "Orders",
             key: "order_id",
         },
-        onDelete: "CASCADE",
     },
     payment_method: {
         type: DataTypes.ENUM('card', 'upi', 'wallet', 'cod'),

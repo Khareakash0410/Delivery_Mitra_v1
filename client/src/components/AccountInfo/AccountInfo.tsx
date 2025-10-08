@@ -57,6 +57,7 @@ const AccountInfo: React.FC = () => {
         withCredentials: true,
       }
     );
+    toast.success(data?.message);
     setUser((prev) => ({
       ...prev!,
       profilePic: data?.imageUrl,

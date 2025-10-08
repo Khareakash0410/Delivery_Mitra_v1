@@ -8,7 +8,6 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { logoutSuccess } from '../../store/slices/UserSlice';
-import usePutApi from '../../api/usePutApi';
 
 interface AdminSidebarProps {
   toggleSidebar: () => void;
@@ -18,28 +17,14 @@ const Sidebar: React.FC<AdminSidebarProps> = ({ toggleSidebar }) => {
 
   const {data: getData, error: getError, setEnabled: getEnabled} = useGetApi(apiEndpoints.AUTH.GET_ME);
 
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState<boolean>();
+
   const {data, error, setEnabled} = useGetApi(apiEndpoints.AUTH.LOGOUT);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const {data: statusData, error: statusError, setEnabled: statusEnabled} = usePutApi(`${apiEndpoints.AUTH.STORE_STATUS}`, {status});
-
-  const handleLogout = (): void => {
-    setEnabled(true);
-    toggleSidebar();
-  };
-
-  const handleToggleChange = (): void => {
-    if (status === "Online") {
-      setStatus("Offline");
-    }
-    else {
-      setStatus("Online");
-    }
-
-    statusEnabled(true);
-  };
+  const {data: statusData, error: statusError, setEnabled: statusEnabled} = useGetApi(`${apiEndpoints.AUTH.STORE_STATUS}`);
 
   useEffect(() => {
     getEnabled(true);
@@ -47,7 +32,7 @@ const Sidebar: React.FC<AdminSidebarProps> = ({ toggleSidebar }) => {
 
   useEffect(() => {
     if (getData) {
-      setStatus(getData.data?.vendor?.status);
+      setStatus(getData.data?.vendor?.vendor.is_active);
     }
     if (getError) {
       toast.error(getError?.message);
@@ -71,14 +56,13 @@ const Sidebar: React.FC<AdminSidebarProps> = ({ toggleSidebar }) => {
      if (statusData) {
       toast.success(statusData?.message);
       statusEnabled(false);
-      setStatus(statusData?.vendor?.status);
+      setStatus(statusData?.vendor?.vendor.is_active);
      }
      if (statusError) {
       toast.error(statusError?.message);
       statusEnabled(false);
      }
    }, [statusData, statusError]);
-
 
 
   return (
@@ -99,8 +83,8 @@ const Sidebar: React.FC<AdminSidebarProps> = ({ toggleSidebar }) => {
           <label className={styles.toggleSwitch}>
             <input
               type="checkbox"
-              checked={status === "Online"}
-              onChange={handleToggleChange}
+              checked={status === true}
+              onChange={() => statusEnabled(true)}
               className={styles.toggleInput}
             />
             <span className={styles.toggleSlider}></span>
@@ -179,7 +163,7 @@ const Sidebar: React.FC<AdminSidebarProps> = ({ toggleSidebar }) => {
       </nav>
 
       <div className={styles.logoutSection}>
-        <button onClick={handleLogout} className={styles.logoutButton}>
+        <button onClick={() => {setEnabled(true); toggleSidebar();}} className={styles.logoutButton}>
           <FaSignOutAlt />
           <span>Logout</span>
         </button>

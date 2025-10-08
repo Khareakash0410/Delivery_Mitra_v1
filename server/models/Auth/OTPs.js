@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../../database/database.js';
 
-const OTP = sequelize.define('otp', {
+const OTPs = sequelize.define('otp', {
   phone: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -23,4 +23,4 @@ const OTP = sequelize.define('otp', {
   timestamps: true,
 });
 
-export default OTP;
+export default OTPs;

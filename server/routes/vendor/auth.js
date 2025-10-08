@@ -1,6 +1,6 @@
 import express from "express";
 import { getVendorProfile, loginVendor, updateStoreStatus, updateVendorPassword, updateVendorProfile } from "../../controllers/VendorController.js";
-import {areAuthenticated as authenticate} from "../../middleware/Authenticate.js";
+import {isAuthenticated as authenticate} from "../../middleware/Authenticate.js";
 
 
 
@@ -22,7 +22,7 @@ router.route("/password")
    .put(updateVendorPassword);
 
 router.route("/store-status")
-   .put(updateStoreStatus);
+   .get(updateStoreStatus);
 
 
 

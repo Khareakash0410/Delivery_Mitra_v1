@@ -1,4 +1,4 @@
-import { DeliveryAgent, Order, OrderItem, Product, User } from "../models/index.js";
+import { DeliveryAgents, Orders, OrderItems, Products, Users } from "../models/index.js";
 
 export default class DeliveryAgentService {
 

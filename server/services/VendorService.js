@@ -1,16 +1,23 @@
-import { Order, OrderItem, Product, ProductImage, Vendor } from "../models/index.js";
+import { Orders, OrderItems, Products, ProductImages, Vendors, Users, Categories } from "../models/index.js";
 import bcrypt from "bcrypt";
 
 export default class VendorService {
 
     static async login (email, password) {
         try {
-            const vendor = await Vendor.findOne({
-                where: {email},
-                attributes: ['id', 'email', 'password', 'phone', 'shopname', 'description', 'logo', 'location', 'account_number', 'bank_name', 'ifsc_code', 'qrCode', 'status']
+            const vendor = await Users.findOne({
+                where: {email, role: "seller"}
             });
 
-            await vendor.matchPassword(password);
+            if (!vendor) {
+                return {status: 0, message: "Invalid Credentials"}
+            }
+
+            const passMatch = await vendor.matchPassword(password);
+
+            if (!passMatch) {
+                return {status: 0, message: "Invalid Credentials"}
+            }
 
             const vendorData = vendor.get({plain: true});
             delete vendorData.password;
@@ -24,10 +31,16 @@ export default class VendorService {
 
     static async getVendorProfile (id) {
         try {
-            const vendor = await Vendor.findByPk(id, {
-                attributes: {
-                    exclude: ["password"]
+            const vendor = await Users.findByPk(id, {
+            attributes: {
+                exclude: ["password"]
+            },
+            include: [
+                {
+                model: Vendors,
+                as: "vendor"
                 }
+            ]
             });
 
             if(!vendor) {
@@ -42,19 +55,26 @@ export default class VendorService {
 
     static async updateVendorProfile (vendorId, updateData) {
         try {
-          const vendor = await Vendor.findByPk(vendorId);
+          const vendor = await Users.findByPk(vendorId, {
+            include: [{ model: Vendors, as: "vendor" }]
+          });
           if (!vendor) {
             return {status: 0, message: "Vendor not found"}
-          }       
+          }      
           
-          const allowedUpdates = ["phone", "shopname", "description", "logo", "location", "account_number", "bank_name", "ifsc_code", "qrCode"];
+          const allowedUpdates = ["shop_name", "gst_number", "shop_address", "account_number", "bank_name", "ifsc_code", "qrCode"];
           Object.keys(updateData).forEach(key => {
             if(allowedUpdates.includes(key)) {
-                vendor[key] = updateData[key];
+                vendor.vendor[key] = updateData[key];
             }
           });
 
+          if (updateData.profilePic) {
+            vendor.profilePic = updateData.profilePic;
+          }
+
           await vendor.save();
+          await vendor.vendor.save();
           return {status: 1, data: vendor.get({plain: true})}
         } catch (error) {
           return {status: 0, message: "Failed to update"}
@@ -63,7 +83,7 @@ export default class VendorService {
 
     static async updateVendorPassword(vendorId, currentPassword, newPassword) {
         try {
-            const vendor = await Vendor.findByPk(vendorId);
+            const vendor = await Users.findByPk(vendorId);
             if(!vendor) {
                 return {status: 0, message: "Vendor not found"}
             }
@@ -72,12 +92,8 @@ export default class VendorService {
             if(!isPasswordMatch) {
                 return {status: 0, message: "Current password incorrect"}
             } 
-
-            const salt  = await bcrypt.genSalt(10);
-            vendor.password = await bcrypt.hash(newPassword, salt);
-
+            vendor.password = newPassword;
             await vendor.save();
-
             return {status: 1, message: "Password updated successful"}
         } catch (error) {
             return {status: 0, message: "Password update failed"}
@@ -86,15 +102,45 @@ export default class VendorService {
 
     static async updateStoreStatus(vendorId, status) {
         try {
-           const vendor = await Vendor.findByPk(vendorId);
+           const vendor = await Users.findByPk(vendorId, 
+            {
+            include: [{ model: Vendors, as: "vendor" }]
+            }
+           );
            if(!vendor) {
             return {status: 0, message: "Vendor not found"}
            }
-           vendor.status = status;
-           await vendor.save();
+           if (vendor.vendor.is_active === true) {
+              vendor.vendor.is_active = false;
+           } else {
+            vendor.vendor.is_active = true;
+           }
+           await vendor.vendor.save();
            return {status: 1, message: "Store Status Updated", data: vendor.get({plain: true})}
         } catch (error) {
            return {status: 0, message: "Failed to update status"}
+        }
+    }
+
+    static async getAllCategory () {
+        try {
+            const categories = await Categories.findAll({
+            where: { parent_id: null }, 
+            include: [
+                {
+                model: Categories,
+                as: "subcategories",
+                }
+            ],
+            order: [
+                ["name", "ASC"],
+                [{ model: Categories, as: "subcategories" }, "name", "ASC"]
+            ]
+            });
+
+            return {status: 1, message: "All Categories", data: categories}
+        } catch (error) {
+            return {status: 0, message: "Failed to fetch category"}
         }
     }
 

@@ -34,6 +34,7 @@ export const ENDPOINTS = {
         GET_SINGLE:  "vendor/product/:id",
         UPDATE:  "vendor/product/:id",
         DELETE:  "vendor/product/:id",
+        ALL_CATEGORY: "vendor/product/all-category"
     },
     ORDER: {
         GET_ALL: 'vendor/order',

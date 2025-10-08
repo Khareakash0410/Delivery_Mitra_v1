@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../../database/database.js";
 
-const Product = sequelize.define("Product", {
+const Products = sequelize.define("Product", {
 
     //details
     product_id: {
@@ -13,7 +13,7 @@ const Product = sequelize.define("Product", {
         type: DataTypes.BIGINT,
         allowNull: false,
         references: {
-            model: "Vendor",
+            model: "Vendors",
             key: "seller_id",
         }
     },
@@ -64,4 +64,4 @@ const Product = sequelize.define("Product", {
 });
 
 
-export default Product;
+export default Products;

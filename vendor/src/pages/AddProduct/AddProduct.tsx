@@ -9,6 +9,7 @@ import type { RootState } from '../../store/store';
 import { Navigate } from 'react-router-dom';
 import usePostApi from '../../api/usePostApi';
 import apiEndpoints from '../../api/Config';
+import useGetApi from '../../api/useGetApi';
 
 interface ProductData {
   name: string;
@@ -36,6 +37,8 @@ const AddProduct: React.FC = () => {
     variant: '',
     images: [],
   });
+
+  const {data: categories, error: categoryError, setEnabled: categoryEnabled} = useGetApi(`${apiEndpoints.PRODUCT.ALL_CATEGORY}`);
 
   const {data, loading, error, setEnabled} = usePostApi(`${apiEndpoints.PRODUCT.ADD}`, productData);
 
@@ -95,6 +98,21 @@ const AddProduct: React.FC = () => {
     e.preventDefault();
     setEnabled(true);
   };
+
+  useEffect(() => {
+    categoryEnabled(true);
+  }, []);
+
+  useEffect(() => {
+    if (categories) {
+      categoryEnabled(false);
+
+    }
+    if (categoryError) {
+      toast.error(error?.message);
+      categoryEnabled(false);
+    }
+  }, [categories, categoryError]);
 
   useEffect(() => {
    if (data) {

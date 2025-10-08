@@ -47,7 +47,7 @@ const PasswordChangeModal: React.FC<PasswordChangeModalProps> = ({ isOpen, onClo
   useEffect(() => {
     if (data) {
       toast.success(data?.message);
-      resetForm();
+      handleClose();
       setEnabled(false);
     }
     if (error) {

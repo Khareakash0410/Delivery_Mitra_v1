@@ -7,6 +7,27 @@ import { errorResponse, successResponse } from "../utils/responseUtil.js";
 
 // Admin --- AUTH
 
+export const registerAdmin = CatchAsyncError(async(req, res) => {
+   const {name, phone, email, password} = req.body;
+   const fieldValidate = validateFields(name, phone, email, password);
+   if (fieldValidate) {
+    return res.status(400).json(errorResponse(fieldValidate)); 
+   };
+
+   try {
+    const result = await AdminService.register(name, phone, email, password);
+    if(!result.status) {
+        return res.status(400).json(errorResponse(result.message));
+    }
+
+    return res.status(200).json(successResponse("Login successful"));
+   } catch (error) {
+    return res.status(500).json(errorResponse(error.message || "Internal Server Error"));
+   }
+});
+
+
+
 export const loginAdmin = CatchAsyncError(async(req, res) => {
    const {email, password} = req.body;
    const fieldValidate = validateFields(email, password);
@@ -205,14 +226,14 @@ export const getAllVendor = CatchAsyncError(async(req, res) => {
 
 
 export const addVendor = CatchAsyncError(async(req, res) => {
-   const {email, password} = req.body;
-   const fieldValidate = validateFields(email, password);
+   const {name, phone, email, password} = req.body;
+   const fieldValidate = validateFields(name, phone, email, password);
    if (fieldValidate) {
     return res.status(400).json(errorResponse(fieldValidate)); 
    };
 
    try {
-    const result = await AdminService.addVendor(email, password);
+    const result = await AdminService.addVendor(name, phone, email, password);
     if(!result.status) {
       return res.status(400).json(errorResponse(result.error));
     }
@@ -281,5 +302,27 @@ export const getAllUser = CatchAsyncError(async(req, res) => {
 
 
 
-
 // Admin - DELIVERY AGENT
+
+
+// Admin <-> Categories
+export const addCategory = CatchAsyncError(async(req, res) => {
+   const {name, parent_id} = req.body;
+   const fieldValidate = validateFields(name);
+   if (fieldValidate) {
+    return res.status(400).json(errorResponse(fieldValidate)); 
+   };
+    try {
+
+    const result = await AdminService.addCategory(name, parent_id);
+
+    if(!result.status) {
+        return res.status(400).json(errorResponse(result.message));
+    }
+
+    return res.status(200).json(successResponse(result.message));
+
+  } catch (error) {
+    return res.status(500).json(errorResponse(error.message || "Internal Server Error"));
+  }
+});

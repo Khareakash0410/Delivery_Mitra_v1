@@ -1,8 +1,8 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../../database/database.js";
 
-const CartItem = sequelize.define("CartItem", {
-    id: {
+const CartItems = sequelize.define("CartItem", {
+    cart_item_id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
@@ -22,4 +22,4 @@ const CartItem = sequelize.define("CartItem", {
     }
 });
 
-export default CartItem;
+export default CartItems;

@@ -6,10 +6,11 @@ const parsedAdmin = initialAdmin ? JSON.parse(initialAdmin) : null;
 const initialAuthenticate = localStorage.getItem('Authenticate') === "true";
 
 interface Admin {
-  id: string;
+  user_id: string;
   email?: string;
   profilePic: string;
-  status: string;
+  name: string,
+  phone: string
 }
 
 interface AuthState {

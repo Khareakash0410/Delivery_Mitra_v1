@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../../database/database.js";
 
-const DeliveryAssignment = sequelize.define("DeliveryAssignment", {
+const DeliveryAssignments = sequelize.define("DeliveryAssignment", {
     assignment_id: {
         type: DataTypes.BIGINT,
         primaryKey: true,
@@ -11,11 +11,12 @@ const DeliveryAssignment = sequelize.define("DeliveryAssignment", {
         type: DataTypes.BIGINT,
         allowNull: false,
         references: {
-            model: "Order",
+            model: "Orders",
             key: "order_id",
         }
     },
     delivery_agent_id: {
+        type: DataTypes.BIGINT,
         allowNull: false,
         references: {
             model: "Users",
@@ -36,4 +37,4 @@ const DeliveryAssignment = sequelize.define("DeliveryAssignment", {
     }
 }, {timestamps: true});
 
-export default DeliveryAssignment;
+export default DeliveryAssignments;

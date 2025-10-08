@@ -19,12 +19,7 @@ export const userRegistration = CatchAsyncError(async(req, res) => {
       return res.status(400).json(errorResponse(user.message));
     }
     return res.status(201).json(
-      successResponse(user.message, {
-         id: user.id,
-         phone: user.phone,
-         email: user.email,
-         isVerfied: user.isVerfied,
-      })
+      successResponse(user.message)
     );
    } catch (err) {
       return res.status(500).json(errorResponse(err.message || 'Error during registration'));
@@ -70,7 +65,7 @@ export const userLogin = CatchAsyncError(async(req, res) => {
    if (!result.status) {
      return res.status(400).json(errorResponse(result.message));
    }
-   return res.status(200).json(successResponse(result.message, {}));
+   return res.status(200).json(successResponse(result.message));
   } catch (err) {
      return res.status(500).json(errorResponse(err.message || 'Error in Login'));
   }

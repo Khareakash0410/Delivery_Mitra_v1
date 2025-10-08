@@ -6,7 +6,6 @@ const Categories = sequelize.define("Categories", {
         type: DataTypes.BIGINT,
         primaryKey: true,
         autoIncrement: true,
-        unique: true,
     },
     name: {
         type: DataTypes.STRING,
@@ -14,12 +13,13 @@ const Categories = sequelize.define("Categories", {
     },
     parent_id: {
         type: DataTypes.BIGINT,
-        allowNull: false,
+        allowNull: true,
         references: {
             model: "Categories",
             key: "category_id", 
         },
-        onDelete: "CASCADE", 
+        onDelete: "SET NULL",
+        onUpdate: "CASCADE",
     }
 }, {
     timestamps: true

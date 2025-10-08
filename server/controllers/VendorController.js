@@ -61,7 +61,7 @@ export const updateVendorProfile = CatchAsyncError(async(req, res) => {
     return res.status(400).json(errorResponse(fieldValidate)); 
   }
 
-  const allowedUpdates = ["phone", "shopname", "description", "logo", "location", "account_number", "bank_name", "ifsc_code", "qrCode"];
+  const allowedUpdates = ["shop_name", "gst_number", "profilePic", "shop_address", "account_number", "bank_name", "ifsc_code", "qrCode"];
   const updates = Object.keys(updateData);
   const isValidOperation = updates.every(update => allowedUpdates.includes(update));
 
@@ -109,14 +109,13 @@ export const updateVendorPassword = CatchAsyncError(async(req, res) => {
 
 export const updateStoreStatus = CatchAsyncError(async(req, res) => {
   const vendorId = req.user?.id;
-  const {status} = req.body;
-  const fieldValidate = validateFields(vendorId, status);
+  const fieldValidate = validateFields(vendorId);
   if (fieldValidate) {
     return res.status(400).json(errorResponse(fieldValidate)); 
   }
 
   try {
-    const result = await VendorService.updateStoreStatus(vendorId, status);
+    const result = await VendorService.updateStoreStatus(vendorId);
     if (!result.status) {
         return res.status(400).json(errorResponse(result.message));
     }
@@ -135,6 +134,21 @@ export const updateStoreStatus = CatchAsyncError(async(req, res) => {
 
 
 // Vendor Products
+
+export const getAllCategories = CatchAsyncError(async(req, res) => {
+  try {
+    const result = await VendorService.getAllCategory();
+    if (!result.status) {
+      return res.status(400).json(errorResponse(result.message));
+    }
+    return res.status(200).json(successResponse(result.message, {
+        category: result.data
+    }));
+  } catch (error) {
+    return res.status(500).json(errorResponse(error.message || "Internal Server Error"));
+  }
+});
+
 
 export const addProduct = CatchAsyncError(async(req, res) => {
   const vendorId = req.user?.id;

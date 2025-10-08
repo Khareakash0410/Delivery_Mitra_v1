@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../../database/database.js";
 
-const Notification = sequelize.define("Notification", {
+const Notifications = sequelize.define("Notification", {
     notification_id: {
         type: DataTypes.BIGINT,
         primaryKey: true,
@@ -24,4 +24,4 @@ const Notification = sequelize.define("Notification", {
     }
 }, {timestamps: true});
 
-export default Notification;
+export default Notifications;

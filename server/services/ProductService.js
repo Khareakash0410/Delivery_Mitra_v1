@@ -1,4 +1,4 @@
-import { OrderItem, Product, ProductImage } from "../models/index.js";
+import { OrderItems, Products, ProductImages } from "../models/index.js";
 
 export default class ProductService {
 

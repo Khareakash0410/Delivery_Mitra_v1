@@ -1,12 +1,15 @@
 import express from "express";
-import {areAuthenticated as authenticate} from "../../middleware/Authenticate.js";
-import { addProduct, allProducts, deleteProduct, getProduct, updateProduct } from "../../controllers/VendorController.js";
+import {isAuthenticated as authenticate} from "../../middleware/Authenticate.js";
+import { addProduct, allProducts, deleteProduct, getAllCategories, getProduct, updateProduct } from "../../controllers/VendorController.js";
 
 
 const router = express.Router();
 
 
 
+
+router.route("/all-category")
+   .get(getAllCategories);
 
 router.use(authenticate);
 

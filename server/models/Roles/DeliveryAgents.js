@@ -1,30 +1,21 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../../database/database.js";
 
-const Vendor = sequelize.define("Vendor", {
-    seller_id: {
+const DeliveryAgents = sequelize.define("DeliveryAgents", {
+    delivery_agent_id: {
         type: DataTypes.BIGINT,
         primaryKey: true,
         autoIncrement: true,
     },
-    user_id: {
+    user_id: {   
         type: DataTypes.BIGINT,
         allowNull: false,
         references: {
-            model: "Users",
-            key: "user_id",
-        },
-        onDelete: "CASCADE",
+            model: "Users",   
+            key: "user_id",   
+        }, 
     },
-    shop_name: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    gst_number: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    shop_address: {
+    vehicle_number: {
         type: DataTypes.STRING,
         allowNull: true,
     },
@@ -36,14 +27,13 @@ const Vendor = sequelize.define("Vendor", {
     account_number: {
         type: DataTypes.STRING(20),
         allowNull: true,
-        unique: true,
     },
     bank_name: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(100),
         allowNull: true,
     },
     ifsc_code: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(20),
         allowNull: true,
     },
     qrCode: {
@@ -53,7 +43,7 @@ const Vendor = sequelize.define("Vendor", {
 
 }, {
     timestamps: true
-});
+   }
+);
 
-
-export default Vendor;
+export default DeliveryAgents;

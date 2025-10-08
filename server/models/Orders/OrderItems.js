@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../../database/database.js";
 
-const OrderItem = sequelize.define("OrderItem", {
+const OrderItems = sequelize.define("OrderItem", {
     order_item_id: {
         type: DataTypes.BIGINT,
         primaryKey: true,
@@ -11,7 +11,7 @@ const OrderItem = sequelize.define("OrderItem", {
         type: DataTypes.BIGINT,
         allowNull: false,
         references: {
-            model: "Order",
+            model: "Orders",
             key: "order_id",
         }
     },
@@ -19,7 +19,7 @@ const OrderItem = sequelize.define("OrderItem", {
         type: DataTypes.BIGINT,
         allowNull: false,
         references: {
-            model: "ProductVariant",
+            model: "ProductVariants",
             key: "variant_id",
         }
     },
@@ -39,4 +39,4 @@ const OrderItem = sequelize.define("OrderItem", {
 
 });
 
-export default OrderItem;
+export default OrderItems;

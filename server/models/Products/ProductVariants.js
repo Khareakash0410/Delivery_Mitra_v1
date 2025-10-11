@@ -27,6 +27,11 @@ const ProductVariants = sequelize.define("ProductVariant", {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
     },
+    platformFeesPerUnit: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+        defaultValue: 1.00
+    },
     is_available: {
         type: DataTypes.BOOLEAN,
         defaultValue: true

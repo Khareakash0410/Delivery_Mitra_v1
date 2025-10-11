@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Upload } from 'lucide-react';
 import styles from './AddProduct.module.css';
-import { categoryOptions } from '../../types/ProductCategory';
 import { uploadImage } from '../../utils/ImageUploader';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
@@ -14,10 +13,11 @@ import useGetApi from '../../api/useGetApi';
 interface ProductData {
   name: string;
   price: number;
-  discountedPrice: number;
+  size: string,
+  color: string,
+  weight: number,
   platformFees: number;
   description: string;
-  stockAvailable: boolean;
   category: string;
   variant: string;
   images: string[];
@@ -29,34 +29,25 @@ const AddProduct: React.FC = () => {
   const [productData, setProductData] = useState<ProductData>({
     name: '',
     price: 0,
-    discountedPrice: 0,
     platformFees: 1,
     description: '',
-    stockAvailable: true,
+    color: '',
+    size: '',
+    weight: 1,
     category: '',
     variant: '',
     images: [],
   });
 
   const {data: categories, error: categoryError, setEnabled: categoryEnabled} = useGetApi(`${apiEndpoints.PRODUCT.ALL_CATEGORY}`);
-
   const {data, loading, error, setEnabled} = usePostApi(`${apiEndpoints.PRODUCT.ADD}`, productData);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>): void => {
     const { name, value, type } = e.target;  
-    if (type === 'checkbox') {
-      const checkbox = e.target as HTMLInputElement;
-      setProductData(prev => ({
-        ...prev,
-        [name]: checkbox.checked
-      }));
-    } 
-    else {
       setProductData(prev => ({
         ...prev,
         [name]: type === 'number' ? parseFloat(value) || 0 : value
       }));
-    }
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,10 +75,11 @@ const AddProduct: React.FC = () => {
     setProductData({
       name: '',
       price: 0,
-      discountedPrice: 0,
+      size: '',
+      color: '',
+      weight: 0,
       platformFees: 1,
       description: '',
-      stockAvailable: true,
       category: '',
       variant: '',
       images: [],
@@ -97,6 +89,7 @@ const AddProduct: React.FC = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     setEnabled(true);
+    console.log(productData);
   };
 
   useEffect(() => {
@@ -166,20 +159,62 @@ const AddProduct: React.FC = () => {
               id="category"
               name="category"
               value={productData.category}
-              onChange={handleChange}
+              onChange={(e) => {
+                const selectedCategoryId = e.target.value;
+                setProductData(prev => ({
+                  ...prev,
+                  category: selectedCategoryId,
+                  variant: '',
+                }));
+              }}
               className={styles.select}
               required
             >
               <option value="" disabled>
                 Select a category
               </option>
-              {categoryOptions.map((category) => (
-                <option key={category} value={category}>
-                  {category}
+
+              {categories?.data?.category?.map((cat: any) => (
+                <option key={cat.category_id} value={cat.category_id}>
+                  {cat.name}
                 </option>
               ))}
             </select>
           </div>
+
+          {/* Sub -Category */}
+          {(() => {
+            const selectedCategory = categories?.data?.category?.find(
+              (cat: any) => cat.category_id === parseInt(productData.category)
+            );
+
+            if (selectedCategory?.subcategories?.length > 0) {
+              return (
+                <div className={styles.formGroup}>
+                  <label className={styles.label} htmlFor="variant">
+                    Sub-Category
+                  </label>
+                  <select
+                    id="variant"
+                    name="variant"
+                    value={productData.variant}
+                    onChange={handleChange}
+                    className={styles.select}
+                  >
+                    <option value="" disabled>
+                      Select a sub-category
+                    </option>
+                    {selectedCategory.subcategories.map((sub: any) => (
+                      <option key={sub.category_id} value={sub.category_id}>
+                        {sub.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              );
+            }
+            return null;
+          })()}
 
           {/* Description */}
           <div className={`${styles.formGroup} ${styles.fullWidth}`}>
@@ -196,6 +231,61 @@ const AddProduct: React.FC = () => {
               placeholder="Enter product description"
             />
           </div>
+
+          {/* Color */}
+          <div className={styles.formGroup}>
+            <label className={styles.label} htmlFor="color">
+              Product Color *
+            </label>
+            <input
+              id="color"
+              type="text"
+              name="color"
+              value={productData.color}
+              onChange={handleChange}
+              className={styles.input}
+              required
+              placeholder="Enter product color"
+            />
+          </div>
+
+          {/* Size */}
+          <div className={styles.formGroup}>
+            <label className={styles.label} htmlFor="size">
+              Product Size *
+            </label>
+            <input
+              id="size"
+              type="text"
+              name="size"
+              value={productData.size}
+              onChange={handleChange}
+              className={styles.input}
+              required
+              placeholder="Enter product size"
+            />
+          </div>
+
+
+          {/* Weight */}
+          <div className={styles.formGroup}>
+            <label className={styles.label} htmlFor="weight">
+             Product Weight *
+            </label>
+            <input
+              id="weight"
+              type="number"
+              name="weight"
+              value={productData.weight || ''}
+              onChange={handleChange}
+              className={styles.input}
+              min="1"
+              step="1"
+              required
+              placeholder="1"
+            />
+          </div>
+          
 
           {/* Price */}
           <div className={styles.formGroup}>
@@ -231,36 +321,6 @@ const AddProduct: React.FC = () => {
               min="1"
               step="0.01"
               placeholder="1.00"
-            />
-          </div>
-
-          {/* Stock Available */}
-          <div className={styles.formGroup}>
-            <label className={styles.checkboxLabel}>
-              <input
-                type="checkbox"
-                name="stockAvailable"
-                checked={productData.stockAvailable}
-                onChange={handleChange}
-                className={styles.checkbox}
-              />
-              <span className={styles.checkboxText}>Stock Available</span>
-            </label>
-          </div>
-
-          {/* Options */}
-          <div className={styles.formGroup}>
-            <label className={styles.label} htmlFor="options">
-              Options
-            </label>
-            <input
-              id="variant"
-              type="text"
-              name="variant"
-              value={productData.variant}
-              onChange={handleChange}
-              className={styles.input}
-              placeholder="like Kg, Litre, Size, etc."
             />
           </div>
         </div>

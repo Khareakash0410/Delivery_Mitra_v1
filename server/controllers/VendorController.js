@@ -151,22 +151,20 @@ export const getAllCategories = CatchAsyncError(async(req, res) => {
 
 
 export const addProduct = CatchAsyncError(async(req, res) => {
-  const vendorId = req.user?.id;
-  const {name, category, description, price, platformFeesPerUnit, stocks, variant, images} = req.body;
-  const fieldValidate = validateFields(name, category, description, price, platformFeesPerUnit, stocks, variant, images, vendorId);
+  const userId = req.user?.id;
+  const {name, category, variant, description, color, size, weight,  price, platformFeesPerUnit, images} = req.body;
+  const fieldValidate = validateFields(name, category, variant, description, color, size, weight,  price, platformFeesPerUnit, images, userId);
   if (fieldValidate) {
     return res.status(400).json(errorResponse(fieldValidate)); 
   }
 
   try {
-    const result = await VendorService.addProduct(vendorId, name, category, description, price, platformFeesPerUnit, stocks, variant, images);
+    const result = await VendorService.addProduct(name, category, variant, description, color, size, weight,  price, platformFeesPerUnit, images, userId);
     if (!result.status) {
       return res.status(400).json(errorResponse(result.message));
     }
 
-    return res.status(200).json(successResponse("Product added successful", {
-        product: result.data
-    }));
+    return res.status(200).json(successResponse(result.message));
   } catch (error) {
     return res.status(500).json(errorResponse(error.message || "Internal Server Error"));
   }
@@ -193,14 +191,10 @@ export const allProducts = CatchAsyncError(async(req, res) => {
     }
 
     const {count, products} = result;
-    const updatedProducts = products.map(product => {
-        const {id, name, price, category} =  product;
-        return {id, name, price, category};
-    });
 
     const totalPages = Math.ceil(count / limit) || 1;
 
-    return res.status(200).json(successResponse("Products retieved successful", updatedProducts, {
+    return res.status(200).json(successResponse("Products retieved successful", products, {
         current_page: page,
         per_page: limit,
         total: count,

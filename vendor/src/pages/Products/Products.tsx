@@ -11,7 +11,6 @@ const ProductSection: React.FC = () => {
   const [deleteEnabled, setDeleteEnabled] = useState(false);
 
   const navigate = useNavigate();
-  
 
   const itemsPerPage = 15;
   const totalPages = Math.ceil(productData?.products?.length / itemsPerPage);

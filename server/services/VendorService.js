@@ -1,5 +1,6 @@
 import { Orders, OrderItems, Products, ProductImages, Vendors, Users, Categories } from "../models/index.js";
 import bcrypt from "bcrypt";
+import ProductVariants from "../models/Products/ProductVariants.js";
 
 export default class VendorService {
 
@@ -144,34 +145,59 @@ export default class VendorService {
         }
     }
 
-    static async addProduct(vendorId, name, category, description, price, platformFeesPerUnit, stocks, variant, images) {
+    static async addProduct(name, category, variant, description, color, size, weight,  price, platformFeesPerUnit, images, userId) {
         try {
-            const exisitngProduct = await Product.findOne({
-                where: {name, variant, vendorId}
+
+            const vendor = await Vendors.findOne({
+                where: {
+                    user_id: userId
+                }
             });
 
-            if(exisitngProduct) {
-                return {status: 0, message: "You have already added this product"}
+            let product = await Products.findOne({
+                where: {name, category_id: variant || category, seller_id: vendor.seller_id}
+            });
+
+            if(!product) {
+                product = await Products.create({
+                    seller_id: vendor.seller_id,
+                    category_id: variant || category,
+                    name,
+                    description,
+                });
             }
-        
-            const product = await Product.create({
-                name, category, description, variant, price, platformFeesPerUnit, stocks, vendorId
+
+            const existingVariant = await ProductVariants.findOne({
+                where: {
+                    product_id: product.product_id,
+                    color,
+                    size,
+                    weight
+                },
+            });
+
+            if (existingVariant) {
+                return {status: 0, message: "Already existed product variant"}
+            }
+
+            const createVariant = await ProductVariants.create({
+                product_id: product.product_id,
+                color,
+                size,
+                weight,
+                platformFeesPerUnit,
+                price
             });
 
             if (images && images.length > 0) {
-                await ProductImage.bulkCreate(images.map(img => ({
-                    imageUrl: img,
-                    productId: product.id
+                await ProductImages.bulkCreate(images.map(img => ({
+                    url: img,
+                    variant_id: createVariant.variant_id
                 })));
             }
-
-            if(!product) {
-                return {status: 0, message: "Failed to add product"}
-            }
-
-            return {status: 1, message: "Product added successfully", data: product.get({plain: true})}
-
+            return {status: 1, message: "Product Variant added successfully"}
         } catch (error) {
+            console.log(error)
             return {status: 0, message: "Failed to add product"}
         }
     }
@@ -179,22 +205,61 @@ export default class VendorService {
     static async getAllVendorProduct (page = 1, limit = 10, vendorId) {
         const offset = (page - 1) * limit;
         try {
-            const {count, rows: products} = await Product.findAndCountAll({
-                where: {vendorId},
-                limit,
-                offset,
-                order: [["createdAt", "DESC"]],
-            });
+        const vendor = await Vendors.findOne({
+            where: { user_id: vendorId },
+            attributes: ["seller_id"],
+        });
 
-            if (count === 0 || !products) {
-                return {status: 0, message: "No product found"}
-            }
+        const products = await Products.findAll({
+        where: { seller_id: vendor.seller_id },
+        attributes: ["product_id"],
+        raw: true,
+        });
 
-            return {
-                status: 1,
-                count, 
-                products: products.map(product => product.get({plain: true}))
-            };
+        if (!products.length) {
+        return { status: 0, message: "No products found for this vendor" };
+        }
+
+        const productIds = products.map(p => p.product_id);
+
+        const { count, rows: variants } = await ProductVariants.findAndCountAll({
+        where: { product_id: productIds },
+        attributes: ["variant_id", "size", "color", "weight", "price", "createdAt"],
+        include: [
+            {
+            model: Products,
+            as: "product",
+            attributes: ["product_id", "name"],
+            include: [
+                {
+                model: Categories,
+                as: "category",
+                attributes: ["category_id", "name"],
+                include: [
+                    {
+                    model: Categories,
+                    as: "parent",
+                    attributes: ["category_id", "name"],
+                    },
+                ],
+                },
+            ],
+            },
+        ],
+        limit,
+        offset,
+        order: [["createdAt", "DESC"]],
+        });
+
+        if (count === 0 || !variants) {
+            return {status: 0, message: "No product found"}
+        }
+
+        return {
+            status: 1,
+            count, 
+            products: variants.map(product => product.get({plain: true}))
+        };
         } catch (error) {
             return {status: 0, message: "Failed to fetch products"}
         }

@@ -3,7 +3,6 @@ import sequelize from "../../database/database.js";
 
 const Products = sequelize.define("Product", {
 
-    //details
     product_id: {
         type: DataTypes.BIGINT,
         primaryKey: true,
@@ -32,15 +31,6 @@ const Products = sequelize.define("Product", {
     description: {
         type: DataTypes.STRING,
         allowNull: true,
-    },
-    price: {
-        type: DataTypes.FLOAT,
-        allowNull: false,
-    },
-    platformFeesPerUnit: {
-        type: DataTypes.FLOAT,
-        allowNull: false,
-        defaultValue: 1.00
     },
     is_active: {
         type: DataTypes.BOOLEAN,

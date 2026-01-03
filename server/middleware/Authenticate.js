@@ -19,6 +19,7 @@ export const isAuthenticated = CatchAsyncError(async(req, res, next) => {
         if (!user) {
          return res.status(401).json(error('Invalid or expired token', 401));
         } 
+
         req.user = {
             id: user.user_id,
             name: user.name,

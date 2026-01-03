@@ -43,7 +43,15 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ cartDrawerOpen, toggleCart }) =
         aria-label="Shopping cart"
       >
         {/* Header with Close Button */}
+
+        {/* Cart Content Area */}
+        <div className={styles.contentArea}>
+
         <div className={styles.header}>
+          <h2 className={styles.title}>
+            Your Cart
+          </h2>
+
           <button 
             onClick={toggleCart}
             className={styles.closeButton}
@@ -54,11 +62,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ cartDrawerOpen, toggleCart }) =
           </button>
         </div>
 
-        {/* Cart Content Area */}
-        <div className={styles.contentArea}>
-          <h2 className={styles.title}>
-            Your Cart
-          </h2>
+
           
           {/* Cart Items */}
           <div className={styles.cartItems}>

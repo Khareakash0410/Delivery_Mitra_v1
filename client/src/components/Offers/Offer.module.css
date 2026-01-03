@@ -23,7 +23,6 @@
   min-height: 200px;
   display: flex;
   flex-direction: column;
-  cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }

@@ -39,6 +39,10 @@
   align-items: center;
   gap: 2rem;
   flex: 1;
+    overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .navLink {

@@ -4,7 +4,6 @@ import styles from './FilterSidebar.module.css';
 
 interface FilterState {
   category: string;
-  brand: string[];
   minPrice: number;
   maxPrice: number;
 }
@@ -14,25 +13,13 @@ const FilterSidebar: React.FC = () => {
   
   const [filters, setFilters] = useState<FilterState>({
     category: "",
-    brand: [],
     minPrice: 0,
-    maxPrice: 1000,
+    maxPrice: 10000,
   });
 
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 10000]);
 
-  const categories: string[] = ["Grocery", "Dairy", "Medicine", "Electronics", "Others"];
-  
-  const brands: string[] = [
-    'General Store',
-    'Medicine Pharma',
-    'Street Shop',
-    'Beach Breeze',
-    'Fashionist',
-    'Pharmaeasy',
-    'Roadster',
-    'Siyaram',
-  ];
+  const categories: string[] = ["Grocery", "Dairy", "Electronics", "Vegetables", "Pharmacy", "Personalcare", "Household","Sweets", "Stationery","Agriculture", "Fertilizers", "Fashion", "Footwear", "Toys"];
 
   const updateURLParams = useCallback((newFilters: FilterState) => {
     const params = new URLSearchParams();
@@ -77,20 +64,6 @@ const FilterSidebar: React.FC = () => {
     updateURLParams(newFilters);
   }, [filters, updateURLParams]);
 
-  const handleBrandChange = useCallback((brand: string) => {
-    const updatedBrands = filters.brand.includes(brand)
-      ? filters.brand.filter(b => b !== brand)
-      : [...filters.brand, brand];
-    
-    const newFilters: FilterState = {
-      ...filters,
-      brand: updatedBrands
-    };
-    
-    setFilters(newFilters);
-    updateURLParams(newFilters);
-  }, [filters, updateURLParams]);
-
   return (
     <div className={styles.container}>
       <div className={styles.title}>Filter You Like</div>
@@ -113,23 +86,6 @@ const FilterSidebar: React.FC = () => {
         ))}
       </div>
 
-      {/* seller filter */}
-      <div className={styles.filterSection}>
-        <div className={styles.filterTitle}>Seller</div>
-        {brands.map((ele) => (
-          <div key={ele} className={styles.filterItem}>
-            <input 
-              type="checkbox" 
-              value={ele}
-              checked={filters.brand.includes(ele)}
-              onChange={() => handleBrandChange(ele)}
-              className={styles.input}
-            />
-            <label className={styles.label}>{ele}</label>
-          </div>
-        ))}
-      </div>
-
       {/* price range filter */}
       <div className={styles.filterSection}>
         <div className={styles.filterTitle}>Price Range</div>
@@ -140,7 +96,7 @@ const FilterSidebar: React.FC = () => {
         <input 
           type="range" 
           min="0" 
-          max="1000" 
+          max="10000" 
           value={priceRange[1]} 
           onChange={handlePriceChange}
           className={styles.rangeInput}

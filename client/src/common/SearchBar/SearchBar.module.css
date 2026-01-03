@@ -86,7 +86,7 @@
 
 @media (max-width: 640px) {
   .searchContainer {
-    order: 3;
+    order: 2;
     flex: 1 1 100%;
     margin-top: 0.75rem;
     max-width: none;

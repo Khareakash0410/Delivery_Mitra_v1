@@ -1,7 +1,11 @@
 import React from 'react';
 import styles from './Hero.module.css';
+import { useNavigate } from 'react-router-dom';
 
 const Hero: React.FC = () => {
+  const navigate = useNavigate();
+
+
   return (
     <section className={styles.hero}>
       <div className={styles.content}>
@@ -25,7 +29,7 @@ const Hero: React.FC = () => {
           </p>
           
           <div className={styles.actions}>
-            <button className={styles.primaryButton}>
+            <button className={styles.primaryButton} onClick={() => navigate("/collections/all")}>
               Shop Now →
             </button>
           </div>

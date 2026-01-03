@@ -48,10 +48,9 @@
 /* Header Section */
 .header {
   display: flex;
-  justify-content: flex-end;
-  padding: 1rem;
+  justify-content: space-between;
+  padding: 0.5rem;
   border-bottom: 1px solid #e8f5e8;
-  background-color: #ffffff;
 }
 
 .closeButton {

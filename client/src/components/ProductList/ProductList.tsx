@@ -1,8 +1,11 @@
 import { ShoppingCart } from 'lucide-react';
 import styles from './ProductList.module.css';
+import { useNavigate } from 'react-router-dom';
 
 
 const ProductsList = ({products}:any) => {
+
+  const navigate = useNavigate();
 
   const renderRating = (rating: number) => {
     const stars = [];
@@ -28,7 +31,7 @@ const ProductsList = ({products}:any) => {
   return (   
       <div className={styles.productsGrid}>
         {products.map((product:any) => (
-          <div key={product.id} className={styles.productCard}>
+          <div key={product.id} className={styles.productCard} onClick={() => navigate("/product/" + [product.id])}>
             <div className={styles.imageContainer}>
               <img 
                 src={product.imageUrl} 

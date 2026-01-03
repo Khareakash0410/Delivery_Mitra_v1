@@ -19,7 +19,7 @@ const Topbar = () => {
       <header className={styles.header}>
         <div className={styles.headerContent}>
           {/* Logo Section - Updated to use image */}
-          <div className={styles.logo}>
+          <div className={styles.logo} onClick={() => navigate("/")}>
             <img 
               src="/Logo.png" 
               alt="Delivery Mitra" 

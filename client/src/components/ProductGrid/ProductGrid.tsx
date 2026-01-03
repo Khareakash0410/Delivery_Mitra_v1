@@ -1,9 +1,12 @@
 import type { JSX } from 'react';
 import styles from './ProductGrid.module.css';
 import { ShoppingCart, Star } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 
 const ProductGrid = ({products}:any) => {
+
+  const navigate = useNavigate();
 
   const formatPrice = (price: number): string => {
     return `₹${price.toFixed(2)}/kg`;
@@ -28,7 +31,7 @@ const ProductGrid = ({products}:any) => {
       <div className={styles.productsWrapper}>
         <div className={styles.productsContainer}>
           {products?.map((product:any) => (
-            <div key={product.id} className={styles.productCard}>
+            <div key={product.id} className={styles.productCard} onClick={() => navigate("/product/" + product.id)}>
               <div className={styles.productImage}>
                 <img src={product.imageUrl} alt={product.name} />
               </div>

@@ -106,7 +106,7 @@ const CategoryProduct: React.FC = () => {
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>Shop By Category</h2>
-          <button className={styles.seeAllBtn}>
+          <button className={styles.seeAllBtn} onClick={() => navigate("/all-category")}>
             View All Categories
             <svg 
               width="16" 

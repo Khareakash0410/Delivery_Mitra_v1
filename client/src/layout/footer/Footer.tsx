@@ -1,25 +1,16 @@
+// Footer.tsx
 import React from 'react';
-import { MapPin, Mail, Phone, Instagram, Facebook, Twitter } from 'lucide-react';
+import { MapPin, Mail, Phone, Facebook, Twitter, Instagram } from 'lucide-react';
 import styles from './Footer.module.css';
 
-interface FooterLink {
-  label: string;
-  href: string;
-}
-
-interface FooterSection {
-  title: string;
-  links: FooterLink[];
-}
-
 const Footer: React.FC = () => {
-  const footerSections: FooterSection[] = [
+  const footerSections = [
     {
       title: 'Links',
       links: [
         { label: 'Home', href: '#' },
         { label: 'Services', href: '#' },
-        { label: 'About Us', href: '#' },
+        { label: 'About Us', href: '#' }
       ]
     },
     {
@@ -40,16 +31,10 @@ const Footer: React.FC = () => {
     }
   ];
 
-  const contactInfo = {
-    address: 'Plot No. 5A, GIDC Industrial Estate, Ahmedabad',
-    email: 'logistix@gmail.com',
-    phone: '+91 9978146323'
-  };
-
   const socialLinks = [
-    { icon: Instagram, href: '#', label: 'Instagram' },
     { icon: Facebook, href: '#', label: 'Facebook' },
-    { icon: Twitter, href: '#', label: 'Twitter' }
+    { icon: Twitter, href: '#', label: 'Twitter' },
+    { icon: Instagram, href: '#', label: 'Instagram' }
   ];
 
   const currentYear = new Date().getFullYear();
@@ -60,45 +45,17 @@ const Footer: React.FC = () => {
         
         {/* Company Info Section */}
         <div className={styles.companySection}>
-          <div className={styles.brandContainer}>
-            <h2 className={styles.brandName}>Delivery Mitra</h2>
-            <p className={styles.brandDescription}>
-              Our platform helps businesses run delivery and hire services, efficient 
-              logistics – making shipments easier to manage, track, and improve.
-            </p>
-          </div>
+          <h2 className={styles.brandName}>Delivery Mitra</h2>
+          <p className={styles.brandDescription}>
+            Our platform helps businesses run delivery and hire services, efficient 
+            logistics – making shipments easier to manage, track, and improve.
+          </p>
           
-          {/* Contact Information */}
-          <div className={styles.contactInfo}>
-            <div className={styles.contactItem}>
-              <MapPin size={16} className={styles.contactIcon} />
-              <span className={styles.contactText}>{contactInfo.address}</span>
-            </div>
-            
-            <div className={styles.contactItem}>
-              <Mail size={16} className={styles.contactIcon} />
-              <a 
-                href={`mailto:${contactInfo.email}`} 
-                className={styles.contactLink}
-              >
-                {contactInfo.email}
-              </a>
-            </div>
-            
-            <div className={styles.contactItem}>
-              <Phone size={16} className={styles.contactIcon} />
-              <a 
-                href={`tel:${contactInfo.phone}`} 
-                className={styles.contactLink}
-              >
-                {contactInfo.phone}
-              </a>
-            </div>
-          </div>
+
         </div>
 
-        {/* Footer Links Sections */}
-        <div className={styles.linksContainer}>
+        {/* Links Grid */}
+        <div className={styles.linksGrid}>
           {footerSections.map((section, index) => (
             <div key={index} className={styles.linkSection}>
               <h3 className={styles.sectionTitle}>{section.title}</h3>
@@ -118,35 +75,31 @@ const Footer: React.FC = () => {
             </div>
           ))}
         </div>
-      </div>
 
-      {/* Bottom Section */}
-      <div className={styles.bottomSection}>
-        <div className={styles.container}>
-          <div className={styles.bottomContent}>
-            <p className={styles.copyright}>
-              Delivery Mitra © {currentYear}
-            </p>
-            
-            {/* Social Links */}
-            <div className={styles.socialContainer}>
-              {socialLinks.map((social, index) => {
-                const IconComponent = social.icon;
-                return (
-                  <a
-                    key={index}
-                    href={social.href}
-                    className={styles.socialLink}
-                    aria-label={social.label}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <IconComponent size={18} />
-                  </a>
-                );
-              })}
-            </div>
-          </div>
+        {/* Social Links */}
+        <div className={styles.socialContainer}>
+          {socialLinks.map((social, index) => {
+            const IconComponent = social.icon;
+            return (
+              <a
+                key={index}
+                href={social.href}
+                className={styles.socialLink}
+                aria-label={social.label}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <IconComponent size={20} />
+              </a>
+            );
+          })}
+        </div>
+
+        {/* Copyright */}
+        <div className={styles.copyrightContainer}>
+          <p className={styles.copyright}>
+            Delivery Mitra © {currentYear}
+          </p>
         </div>
       </div>
     </footer>

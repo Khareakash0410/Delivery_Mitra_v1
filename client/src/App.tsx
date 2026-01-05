@@ -13,6 +13,7 @@ import OrderConfirmation from "./pages/OrderConfirmation/OrderConfirmation";
 import UserAccount from "./pages/AccountPage/Account";
 import AccountInfo from "./components/AccountInfo/AccountInfo";
 import OrderHistory from "./components/AccountInfo/OrderHistory";
+import CategoriesPage from "./components/All Categories/AllCategories";
 
 
 function App() {
@@ -50,6 +51,10 @@ function App() {
          <Route path="verify-otp" element={<OTPVerify />}/>
 
          <Route path="product/:id" element={<ProductDetails />}/>
+        
+
+         <Route path="all-category" element={<CategoriesPage />}/>
+
 
          <Route path="collections/:category" element={<CollectionPage />}/>
 

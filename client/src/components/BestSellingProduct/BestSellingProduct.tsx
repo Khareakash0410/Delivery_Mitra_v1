@@ -18,7 +18,7 @@ const BestSellingProducts: React.FC = () => {
     { id: 'fresh-meat', name: 'Fresh Meat' },
     { id: 'bread', name: 'Bread' },
     { id: 'fruits', name: 'Fruits' },
-    { id: 'dairy-milk', name: 'Dairy & Milk' },
+    { id: 'dairy', name: 'Dairy' },
     { id: 'snacks', name: 'Snacks' },
   ];
 
@@ -29,25 +29,6 @@ const BestSellingProducts: React.FC = () => {
       
       <div className={styles.header}>
           <h2 className={styles.title}>Best Selling Products</h2>
-          <button className={styles.seeAllBtn}>
-            See All Item
-            <svg 
-              width="16" 
-              height="16" 
-              viewBox="0 0 16 16" 
-              fill="none" 
-              xmlns="http://www.w3.org/2000/svg"
-              className={styles.arrowIcon}
-            >
-              <path 
-                d="M6 12L10 8L6 4" 
-                stroke="currentColor" 
-                strokeWidth="2" 
-                strokeLinecap="round" 
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
       </div>
 
       <div className={styles.categories}>
